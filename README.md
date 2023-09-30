@@ -14,34 +14,57 @@ Controls are mapped via the file "keys.txt" in the following format
 
 Regular Key:
 [KEYCODE] [TYPE] [SUB_TYPE] [DIRECTION_TYPE]
+
   ex) 65 0 0 -1             ------> Key: "a" -> ADD CONTEXT -> LINE -> N/A
+  
 Multi-Key:
+
 [KEYCODE] [# OF SETTINGS] [TYPE] [SUB_TYPE] [DIRECTION_TYPE] ...
+
   ex)-61440 2 2 -1 0 2 -2 0 ------> Key: "F13" -> 2 SETTINGS -> 
+  
     1st: SET SETTING -> CHANGE ANGLE -> SET @0
+    
     2nd: SET SETTING -> CHANGE SCALE -> SET @0
+    
 
     
 Keycode corresponds to the output of KeyEvent.getKeyCode();
+
 ======================TYPE===========================
+
 public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5;
+
 
  
 ======================SUB-TYPE========================
+
 ----------------------CONTEXT-------------------------
+
 public static final int CONTEXT_LINE = 0,  CONTEXT_CLEAR = 1,  CONTEXT_COLOR = 2,  CONTEXT_GLITCH = 3, CONTEXT_WORD = 4;
+
 ----------------------SETTING---------------------------
+
 public static final int SETTING_ANGLE = 0, SETTING_SCALE = 1, SETTING_TRANX = 2, SETTING_TRANY = 3, SETTING_DRAWTOGGLE = 4;
+
 public static final int CHANGE_ANGLE = -1, CHANGE_SCALE = -2, CHANGE_TRANX = -3, CHANGE_TRANY = -4,CHANGE_DRAWTOGGLE = -5;
+
 ----------------------DRAW-MODE-------------------------
+
 public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6;
+
 ----------------------SHIFTER---------------------------
+
 public static final int TOGGLE_ANGLE = 0, TOGGLE_SCALE = 1, TOGGLE_TRANX = 2, TOGGLE_TRANY = 3;
+
 
  
 ======================DIRECTION-TYPE====================
+
 ----------------------SHIFT-----------------------------
+
 public static final int SHIFT_UP = 0, SHIFT_DOWN = 1 ,SHIFT_SET = 2      ,      SETTING_NA = -1;
+
 
 
 LINKS:

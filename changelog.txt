@@ -1,0 +1,7 @@
+9/30 --------------------
+-Added Word Context
+-Created MultiKey Class
+	+Negative key values in keys.txt triggers reading of multiple Action Sets so that 
+		one button can be mapped to multiple commands
+	+Action has been updated with new STATIC IDs for setting settings to specific values
+		 rather than incrementing them

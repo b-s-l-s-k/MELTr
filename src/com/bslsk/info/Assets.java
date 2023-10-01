@@ -22,7 +22,7 @@ public class Assets
 	
 	public static int WIDTH, HEIGHT;
 	public static double RATIO;
-	
+	public static boolean[] ANIM;
 	public static Random R;
 	
 	public static ArrayList<Shifter> shifts;
@@ -40,7 +40,8 @@ public class Assets
 						new QuadMode(),
 						new GlitchMode(),
 						new LifeMode(WIDTH,HEIGHT,250),
-						new BurstMode()
+						new BurstMode(),
+						new DistortMode()
 				};
 	}
 	public static PaintMode[] getDefaultPaintModes(int w, int h, int r)
@@ -53,7 +54,8 @@ public class Assets
 						new QuadMode(),
 						new GlitchMode(),
 						new LifeMode(w,h,r),
-						new BurstMode()
+						new BurstMode(),
+						new DistortMode()
 				};
 	}
 	public static void setGlobalConstants(int w, int h, double r)
@@ -61,7 +63,8 @@ public class Assets
 		WIDTH = w;
 		HEIGHT = h;
 		RATIO = r;
-		
+		//REPLACE triggers[] in GFrame with ANIM[] 
+		ANIM= new boolean[3];
 		current = Color.black;
 		R = new Random();
 		
@@ -81,7 +84,7 @@ public class Assets
 	{
 		Assets.CONSTRAINTS  = new Constraint[] {
 			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-45,45}) 	,
-			new Constraint(Action.SETTING_SCALE, 1,new int[] {10,1}) ,
+			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,2}) ,
 			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
 			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
 		};
@@ -101,4 +104,9 @@ public class Assets
 		return total;
 				
 	}
+	public static void toggleAnim(int x)
+	{
+		ANIM[x] = !ANIM[x];
+	}
+
 }

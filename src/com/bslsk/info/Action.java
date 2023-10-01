@@ -1,6 +1,7 @@
 package com.bslsk.info;
 
 import com.bslsk.bin.GFrame;
+import com.bslsk.gen.CircleContext;
 import com.bslsk.gen.ClearContext;
 import com.bslsk.gen.ColorContext;
 import com.bslsk.gen.LifeContext;
@@ -16,12 +17,12 @@ public class Action
 	
 	//----------------------S-TYPE--------------------------
 	//----------------------CONTEXT-------------------------
-	public static final int CONTEXT_LINE = 0,  CONTEXT_CLEAR = 1,  CONTEXT_COLOR = 2,  CONTEXT_GLITCH = 3, CONTEXT_WORD = 4;
+	public static final int CONTEXT_LINE = 0,  CONTEXT_CLEAR = 1,  CONTEXT_COLOR = 2,  CONTEXT_GLITCH = 3, CONTEXT_WORD = 4, CONTEXT_IMAGE = 5, CONTEXT_CIRCLE = 6;
 	//----------------------SETTING---------------------------
 	public static final int SETTING_ANGLE = 0, SETTING_SCALE = 1, SETTING_TRANX = 2, SETTING_TRANY = 3, SETTING_DRAWTOGGLE = 4;
 	public static final int CHANGE_ANGLE = -1, CHANGE_SCALE = -2, CHANGE_TRANX = -3, CHANGE_TRANY = -4,CHANGE_DRAWTOGGLE = -5;
 	//----------------------DRAW-MODE-------------------------
-	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6;
+	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6, DRAW_DIST = 7;
 	//----------------------SHIFTER---------------------------
 	public static final int TOGGLE_ANGLE = 0, TOGGLE_SCALE = 1, TOGGLE_TRANX = 2, TOGGLE_TRANY = 3;
 	//----------------------DTYPE---------------------------
@@ -38,12 +39,22 @@ public class Action
 		
 	}
 	//if d is -1 (SETTING_NA), it is not counted
+	/**
+	 * Create a new Action with the given type, subtype, and dtype
+	 * @param t Type of Action
+	 * @param s Sub-Type of Action
+	 * @param d Direction/Secondary Type
+	 */
 	public Action(int t, int s, int d)
 	{
 		type = t;
 		sType = s;
 		dType = d;
 	}
+	/**
+	 * Perform a function according to the types, onto the running variables of the GFrame 
+	 * @param gf The GFrame to be manipulated by this Action
+	 */
 	public void act(GFrame gf)
 	{
 		if( type == ADD_CONTEXT)
@@ -75,6 +86,18 @@ public class Action
 			else if(sType == CONTEXT_WORD)
 			{
 				gf.render.add(new WordContext("words.txt"));
+				
+				return;
+			}
+			else if(sType == CONTEXT_IMAGE)
+			{
+				gf.render.add(new WordContext("words.txt"));
+				
+				return;
+			}
+			else if(sType == CONTEXT_CIRCLE)
+			{
+				gf.render.add(new CircleContext(5,100));
 				
 				return;
 			}

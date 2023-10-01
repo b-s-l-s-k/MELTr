@@ -122,8 +122,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		int[] links = new int[] {
-				0, 1, 1, -1, 3, -1, 5
+		
+		
+		int[] links = new int[] 
+		{
+			0, 1, 1, -1, 3, -1, 5, 7
 		};
 		painter = new Painter(Assets.getDefaultPaintModes(width, height, 250), links);
 		
@@ -239,33 +242,6 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		{
 			return;
 		}
-		//ADD 
-		/*
-		if(e.getKeyChar() == 'a')
-		{
-			render.add(new LineContext(5,width,height));
-			//side.addItem("Line");
-			return;
-		}
-		else if(e.getKeyChar() == 's')
-		{	
-			render.add(new ClearContext(width,height));
-			//side.addItem("Clear");
-			return;
-		}
-		else if(e.getKeyChar() == 'd')
-		{	
-			render.add(new ColorContext(3,this.width, this.height));
-			//side.addItem("Color");
-			return;
-		}
-		else if(e.getKeyChar() == 'f')
-		{	
-			render.add(TrailContext.randomContext(width, height));
-			//side.addItem("Trail");
-			return;
-		}
-		*/
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && render.size() > 0)
 		{	
 			render.remove(render.size()-1);
@@ -353,33 +329,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 					);
 		
 	}
-	/*
-	private boolean checkTransforms(KeyEvent e)
-	{
-		double ot = tranX, ot2 = tranY, ot3 = angle, ot4 = scale;
-		if(e.getKeyCode() == KeyEvent.VK_HOME && tranX > -5)
-			tranX --;
-		else if(e.getKeyCode() == KeyEvent.VK_END && tranX < 5)
-			tranX ++;
-		else if(e.getKeyCode() == KeyEvent.VK_PAGE_UP && tranY > -5)
-			tranY --;
-		else if(e.getKeyCode() == KeyEvent.VK_PAGE_DOWN && tranY < 5)
-			tranY ++;
-		//Angle
-		if(e.getKeyCode() == KeyEvent.VK_UP && angle < 45)
-			angle += 1;
-		if(e.getKeyCode() == KeyEvent.VK_DOWN && angle > -45)
-			angle -= 1;
-		//Scale
-		if(e.getKeyCode() == KeyEvent.VK_LEFT && scale > .1)
-			scale -= .1;
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT && scale < 2.0)
-			scale += .1;
-		if(ot != tranX || ot2 != tranY || ot3 != angle || ot4 != scale)
-			return true;
-		return false;
-	}
-*/
+
 
 
 	@Override

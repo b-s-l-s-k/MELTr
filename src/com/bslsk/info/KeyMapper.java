@@ -25,6 +25,9 @@ public class KeyMapper
 		keys = new ArrayList<Key>();
 		loadFile();
 	}
+	/**
+	 * Load the file associated with this instance of KeyMapper
+	 */
 	private void loadFile()
 	{
 		FileInputStream fis;

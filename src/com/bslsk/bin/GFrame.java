@@ -231,7 +231,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		System.out.println(e.getKeyCode());
 		if(keyMap.keyPressed(e, this))
 			return;
-					
+					/*
 		if(e.getKeyChar() == 'q')
 		{
 			Assets.effects.get(0).toggle();
@@ -245,6 +245,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		{
 			return;
 		}
+		*/
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && render.size() > 0)
 		{	
 			render.remove(render.size()-1);
@@ -318,11 +319,14 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 		{
 			//lT.dump();
-			System.exit(1);
+				System.exit(1);
 		}
 		//side.updateList(new String[] {render.size()+"", mode + "", angle + "", scale + "", colorMode + ""});
 		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			if(Assets.CTRL)
+					new MapFrame(keyMap);
 			System.out.println(
 					"["+(triggers[0] ? "X":" ")+"]"+
 					"["+(triggers[1] ? "X":" ")+"]"+
@@ -330,7 +334,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 					
 					"TRANSITION X: " + tranX + "   Y: "+ tranY + "   Angle:" + angle + "   Scale" + scale
 					);
-		
+		}
 	}
 
 
@@ -400,6 +404,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
+		if(keyMap.keyReleased(e, this))
+			return;
 		if(e.getKeyCode() == KeyEvent.VK_CONTROL)
 		{
 			sbtn = false;

@@ -20,4 +20,13 @@ public class Key
 	{
 		return key + "   " + action.toString();
 	}
+	public void released(GFrame g) 
+	{
+		if(action.getType()[0] == Action.KEY_DOWN)
+			action.act(g);
+		
+	}
+	public int getKey() {
+		return key;
+	}
 }

@@ -12,7 +12,7 @@ import com.bslsk.bin.GFrame;
 public class KeyMapper 
 {
 	//DEFAULT
-	ArrayList<Key> keys;
+	public ArrayList<Key> keys;
 	private String fileL;
 	public KeyMapper()
 	{
@@ -73,6 +73,16 @@ public class KeyMapper
 			if(k2.key == k.getKeyCode())
 			{
 				k2.pressed(g);
+				return true;
+			}
+		return false;
+	}
+	public boolean keyReleased(KeyEvent k, GFrame g)
+	{
+		for(Key k2: keys)
+			if(k2.key == k.getKeyCode())
+			{
+				k2.released(g);
 				return true;
 			}
 		return false;

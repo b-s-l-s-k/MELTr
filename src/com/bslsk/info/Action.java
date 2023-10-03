@@ -13,7 +13,7 @@ import com.bslsk.gen.WordContext;
 public class Action 
 {
 	//-----------------------TYPE---------------------------
-	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5;
+	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6;
 	
 	//----------------------S-TYPE--------------------------
 	//----------------------CONTEXT-------------------------
@@ -191,12 +191,23 @@ public class Action
 			gf.mode = (byte) (sType);
 			gf.painter.setActive(gf.mode);
 		}
+		else if( type == SET_EFFECT)
+		{//public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4;
+				
+			Assets.effects.get(sType).toggle();
+		}
 		else if( type == SET_SHIFTER)
 		{
 			for(Shifter s : Assets.shifts)
 				if(s.type == sType)
 					s.toggleActive();
 		}
+		else if( type == KEY_DOWN)
+		{
+			Assets.CTRL = !Assets.CTRL;
+			System.out.println(Assets.CTRL + " = CTRL" );
+		}
+		
 		
 	}
 	public String toString()
@@ -204,4 +215,7 @@ public class Action
 		return type + " " + sType + " " + dType + " ";
 	}
 	//----------OPTIONS----------------
+	public int[] getType() {
+		return new int[] {type, sType, dType};
+	}
 }

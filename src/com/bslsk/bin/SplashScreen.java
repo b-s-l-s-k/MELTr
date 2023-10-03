@@ -51,7 +51,7 @@ public class SplashScreen extends JFrame implements Runnable
 			try 
 			{
 				countdown ++;
-				if(countdown >= 100)
+				if(countdown >= 50)
 					done = true;
 				repaint();
 				Thread.sleep(20);
@@ -68,7 +68,7 @@ public class SplashScreen extends JFrame implements Runnable
 		g2.drawImage(img, 0, 0, img.getWidth()/2, img.getHeight()/2, null);
 		g2.setColor(Color.cyan);
 		int max = getWidth()-15;
-		int r = (int)((double)max * ((double)countdown/(double)100.0));
+		int r = (int)((double)max * ((double)countdown/(double)50.0));
 		g2.fillRect(10,(getHeight()/10)*8,r,30);
 		System.out.println(countdown+"");
 	}

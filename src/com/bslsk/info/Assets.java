@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.bslsk.gen.Effect;
 import com.bslsk.gen.GlitchEffect;
+import com.bslsk.gen.ImageEffect;
 import com.bslsk.gen.Shifter;
 import com.bslsk.paint.*;
 
@@ -22,6 +23,8 @@ public class Assets
 	
 	public static int WIDTH, HEIGHT;
 	public static double RATIO;
+	
+	public static boolean CTRL;
 	public static boolean[] ANIM;
 	public static Random R;
 	
@@ -76,6 +79,7 @@ public class Assets
 		
 		effects = new ArrayList<Effect>();
 		effects.add(new GlitchEffect(GlitchEffect.O_HORIZONTAL,1,10,100));
+		effects.add(new ImageEffect());
 		
 		drawFont = new Font(Font.SANS_SERIF, Font.BOLD,100);
 		System.out.println(w + "     " + h +"     " + r + "");

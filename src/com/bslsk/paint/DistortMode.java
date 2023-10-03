@@ -22,12 +22,12 @@ public class DistortMode extends PaintMode {
 					//nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
 				//innerPaint(n);
 				double s = 100.0/(Assets.CONSTRAINTS[1].param*100.0)/(double)(Assets.CONSTRAINTS[1].bounds[1]);
-				System.out.println(s+"");
+				//System.out.println(s+"");
 				if(s>=1)
 					s=0.999;
 				double sw = (n.getWidth() - (n.getWidth()*s))/2.0;
 				double sh = (n.getHeight() - (n.getHeight()*s))/2.0;
-				System.out.println(sw + "  "+ sh + " S:" + s);
+				//System.out.println(sw + "  "+ sh + " S:" + s);
 				BufferedImage nx = n.getSubimage((int)(sw), (int)(sh), (int)(n.getWidth()*s),  (int)(n.getWidth()*s));
 				Graphics2D nxg = (Graphics2D)nx.getGraphics();
 				nxg.rotate(-2 * Math.toRadians(Assets.CONSTRAINTS[0].param));

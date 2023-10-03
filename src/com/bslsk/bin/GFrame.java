@@ -51,9 +51,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public int width;
 	public int height;
 	public double ratio;
-	final String[] presets = {"Regular","Double","2xDouble", "Quad","Glitch"}; 
+	//final String[] presets = {"Regular","Double","2xDouble", "Quad","Glitch"}; 
 	int colorMode = 1; 
-	String[] cModes = {"Black","Random Color","ProgresiveColor"};
+	//String[] cModes = {"Black","Random Color","ProgresiveColor"};
 	
 	
 	FilterEffect filter;
@@ -76,6 +76,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	Thread lThread;
 	
 	public Painter painter; //----------------------Create Paintmodes - > Implement
+	
+	
 	public GFrame()
 	{
 		super("MELTR v0.1a");
@@ -137,6 +139,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		//lThread =new Thread(lT);
 		t1 = new Thread(this);
 		t1.start();
+		repaint();
 		//lThread.start();
 		
 		
@@ -272,7 +275,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			colorMode ++;
 			if(colorMode > 2)
 				colorMode=0;
-			System.out.println("Color Mode: " + cModes[colorMode]);
+			//System.out.println("Color Mode: " + cModes[colorMode]);
 			return;
 		}
 
@@ -412,5 +415,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void mouseExited(MouseEvent e) {}
 	
-	public static void main(String[] args) { new GFrame();}
+	public static void main(String[] args) {new SplashScreen(); 
+	//new GFrame();
+	}
 }

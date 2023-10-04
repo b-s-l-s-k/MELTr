@@ -11,7 +11,13 @@ To create a VJ program the is efficient, easy to use, and super customizable.
 ## Getting Started 
 The current configuration is as follows ny default:
 
+Once the program starts, a little splashs reen will appear. After its done loading, a white window will appear. Omce kt does, Press the SPACE bar and it will enable the thread. 
+
+It is recommended that the user presses /, l, ;, ', O, P, -, =, 2, D
+In that order, to get started. 
 [Key] [Mapping]
+
+SPACE - Start/Stop
 
 A - Add Line 
 

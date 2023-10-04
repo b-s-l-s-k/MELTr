@@ -8,10 +8,44 @@ This was created out of the need for an open-source VJ (Visual Jockey) program a
 To create a VJ program the is efficient, easy to use, and super customizable. 
 ![mltr2](https://github.com/b-s-l-s-k/MELTr/assets/146375342/a294c84c-c3a7-4440-8e63-8c11a0d4961b)
 
+## Getting Started 
+The current configuration is as follows ny default:
+[Key] [Mapping]
+A - Add Line 
+S - Add Clear boxes
+D - Add Colored Squares
+F - Add Spikes
+G - Add Text (funtionality limited)
+H - (inactive)
+J - Add Circles
+Backspace - Clear last added Context
+
+Q - Toggle Glitch Effect
+W - Toggle Image (unfinished)
+
+1 - Normal Mode
+2 - Reflect Mode
+3 - Deep Reflect Mode
+4 - Quad Reflect Mode
+5 - Sideways Splay Mode
+
+O - Toggle Rotation Shifter
+P - Toggle Scale Shifter
+
+/ - Enable Drawing Mode
+
+Esc - Close Program 
+
+Up/Down -manually change Angle
+Left/Right - manually change Scale
+PgUp/PgDown - X translation 
+Home/End - Y translation 
+
+
+![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/5830e167-cb32-4cd7-b180-4350537f3cb2)
 
 ## CONTROLS:
 Controls are mapped via the file "keys.txt" in the following format
-![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/5830e167-cb32-4cd7-b180-4350537f3cb2)
 
 ### Regular Key:
 **[KEYCODE] [TYPE] [SUB_TYPE] [DIRECTION_TYPE]**

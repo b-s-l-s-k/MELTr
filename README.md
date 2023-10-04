@@ -10,27 +10,49 @@ To create a VJ program the is efficient, easy to use, and super customizable.
 
 ## Getting Started 
 The current configuration is as follows ny default:
+
 [Key] [Mapping]
+
 A - Add Line 
+
 S - Add Clear boxes
+
 D - Add Colored Squares
+
 F - Add Spikes
+
 G - Add Text (funtionality limited)
+
 H - (inactive)
+
 J - Add Circles
+
 Backspace - Clear last added Context
 
 Q - Toggle Glitch Effect
+
 W - Toggle Image (unfinished)
 
 1 - Normal Mode
+
 2 - Reflect Mode
+
 3 - Deep Reflect Mode
+
 4 - Quad Reflect Mode
+
 5 - Sideways Splay Mode
 
+
 O - Toggle Rotation Shifter
+
 P - Toggle Scale Shifter
+
+L - Enable Angle
+
+; - Enable Scale
+
+' - Enable Translation
 
 / - Enable Drawing Mode
 

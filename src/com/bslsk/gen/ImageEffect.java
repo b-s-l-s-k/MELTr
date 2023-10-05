@@ -46,13 +46,13 @@ public class ImageEffect extends Effect {
 	public void doEffect(Graphics2D g, BufferedImage i) 
 	{
 		Graphics2D b = (Graphics2D)img[active_img].getGraphics();
-		g.rotate(Math.toRadians(rotation));
-		g.scale(xScale, xScale);
+		b.rotate(Math.toRadians(rotation));
+		//g.scale(xScale, xScale);
 		
-		//b.drawImage(img[active_img], 0, 0, null);
-		g.drawImage(img[active_img], x, y, img[active_img].getWidth(), img[active_img].getHeight(), null);
+		b.drawImage(img[active_img], 0, 0, null);
+		g.drawImage(img[active_img], x, y, (int)(img[active_img].getWidth()*xScale), (int)(img[active_img].getHeight()*xScale), null);
 		g.rotate(Math.toRadians(rotation));
-		g.scale(xScale, xScale);
+		//g.scale(xScale, xScale);
 
 	}
 

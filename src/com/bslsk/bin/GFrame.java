@@ -207,9 +207,13 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	{
 		
 		if(buffer == null){return;}
+		
 		for(Effect e : Assets.effects)
 			if(e.isEnabled())
 				e.doEffect(buffer, iB);
+		
+		buffer.drawImage(drawI, 0, 0, null);
+		
 		buffer.setColor(Assets.current);
 		for(GContext c : render)
 			c.draw(buffer);
@@ -218,7 +222,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		painter.update(this); // SEND TO PAINTER
 	
 		
-		buffer.drawImage(drawI, 0, 0, null);
+		
 		
 		filter.doEffect(buffer, iB);
 		g.drawImage(iB, 0, 0, width, height, null);

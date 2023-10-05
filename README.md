@@ -1,17 +1,79 @@
 # MELTr
 For manual visualization of live music
 This program allows the user to create trippy/psychedlic visuals that go along with music either playing out of a speaker, or being performed live. 
+![mltr2](https://github.com/b-s-l-s-k/MELTr/assets/146375342/0a223077-2ed2-4c34-80c3-b5335e53d43b)
+
 
 This was created out of the need for an open-source VJ (Visual Jockey) program as the current market only contains niche products, or hyper expensive multi-faceted ones.
 
 ## GOALS:
 To create a VJ program the is efficient, easy to use, and super customizable. 
-![mltr2](https://github.com/b-s-l-s-k/MELTr/assets/146375342/a294c84c-c3a7-4440-8e63-8c11a0d4961b)
 
+## Getting Started 
+The current configuration is as follows ny default:
+
+Once the program starts, a little splashs reen will appear. After its done loading, a white window will appear. Omce kt does, Press the SPACE bar and it will enable the thread. 
+
+It is recommended that the user presses /, l, ;, ', O, P, -, =, 2, D
+In that order, to get started. 
+[Key] [Mapping]
+
+SPACE - Start/Stop
+
+A - Add Line 
+
+S - Add Clear boxes
+
+D - Add Colored Squares
+
+F - Add Spikes
+
+G - Add Text (funtionality limited)
+
+H - (inactive)
+
+J - Add Circles
+
+Backspace - Clear last added Context
+
+Q - Toggle Glitch Effect
+
+W - Toggle Image (unfinished)
+
+1 - Normal Mode
+
+2 - Reflect Mode
+
+3 - Deep Reflect Mode
+
+4 - Quad Reflect Mode
+
+5 - Sideways Splay Mode
+
+
+O - Toggle Rotation Shifter
+
+P - Toggle Scale Shifter
+
+L - Enable Angle
+
+; - Enable Scale
+
+' - Enable Translation
+
+/ - Enable Drawing Mode
+
+Esc - Close Program 
+
+Up/Down -manually change Angle
+Left/Right - manually change Scale
+PgUp/PgDown - X translation 
+Home/End - Y translation 
+
+![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/f0241498-8a54-40dd-b235-3f905c80b410)
 
 ## CONTROLS:
 Controls are mapped via the file "keys.txt" in the following format
-![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/5830e167-cb32-4cd7-b180-4350537f3cb2)
 
 ### Regular Key:
 **[KEYCODE] [TYPE] [SUB_TYPE] [DIRECTION_TYPE]**

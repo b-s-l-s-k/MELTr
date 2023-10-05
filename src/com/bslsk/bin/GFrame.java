@@ -33,7 +33,7 @@ import com.bslsk.paint.Painter;
 
 public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
-	public static final String VERSION_ID = "0.2.5a";
+	public static final String VERSION_ID = "0.2.8a";
 	//private static final long serialVersionUID = 1L;
 	public Graphics2D buffer;
 	public BufferedImage iB;
@@ -207,7 +207,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	{
 		
 		if(buffer == null){return;}
-
+		for(Effect e : Assets.effects)
+			if(e.isEnabled())
+				e.doEffect(buffer, iB);
 		buffer.setColor(Assets.current);
 		for(GContext c : render)
 			c.draw(buffer);
@@ -215,9 +217,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		
 		painter.update(this); // SEND TO PAINTER
 	
-		for(Effect e : Assets.effects)
-			if(e.isEnabled())
-				e.doEffect(buffer, iB);
+		
 		buffer.drawImage(drawI, 0, 0, null);
 		
 		filter.doEffect(buffer, iB);

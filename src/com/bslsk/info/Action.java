@@ -4,6 +4,7 @@ import com.bslsk.bin.GFrame;
 import com.bslsk.gen.CircleContext;
 import com.bslsk.gen.ClearContext;
 import com.bslsk.gen.ColorContext;
+import com.bslsk.gen.ImageEffect;
 import com.bslsk.gen.LifeContext;
 import com.bslsk.gen.LineContext;
 import com.bslsk.gen.Shifter;
@@ -13,7 +14,7 @@ import com.bslsk.gen.WordContext;
 public class Action 
 {
 	//-----------------------TYPE---------------------------
-	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6;
+	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6, MOVE_IMG = 7;
 	
 	//----------------------S-TYPE--------------------------
 	//----------------------CONTEXT-------------------------
@@ -21,6 +22,7 @@ public class Action
 	//----------------------SETTING---------------------------
 	public static final int SETTING_ANGLE = 0, SETTING_SCALE = 1, SETTING_TRANX = 2, SETTING_TRANY = 3, SETTING_DRAWTOGGLE = 4;
 	public static final int CHANGE_ANGLE = -1, CHANGE_SCALE = -2, CHANGE_TRANX = -3, CHANGE_TRANY = -4,CHANGE_DRAWTOGGLE = -5;
+	public static final int IMG_X = 0, IMG_Y = 1, IMG_SCALEX = 2, IMG_SCALEY = 3, IMG_ROTATION = 4;
 	//----------------------DRAW-MODE-------------------------
 	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6, DRAW_DIST = 7;
 	//----------------------SHIFTER---------------------------
@@ -206,6 +208,49 @@ public class Action
 		{
 			Assets.CTRL = !Assets.CTRL;
 			System.out.println(Assets.CTRL + " = CTRL" );
+		}
+		else if( type == MOVE_IMG)
+		{
+			if(sType == IMG_X)
+			{
+				ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+				if(dType == SHIFT_UP)
+					ii.x++;
+				else if(dType == SHIFT_DOWN)
+					ii.x--;
+			}
+			else if(sType == IMG_Y)
+			{
+				ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+				if(dType == SHIFT_UP)
+					ii.y++;
+				else if(dType == SHIFT_DOWN)
+					ii.y--;
+			}
+			else if(sType == IMG_SCALEX)
+			{
+				ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+				if(dType == SHIFT_UP)
+					ii.xScale+= 0.1;
+				else if(dType == SHIFT_DOWN)
+					ii.xScale-= 0.1;
+			}
+			else if(sType == IMG_SCALEY)
+			{
+				ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+				if(dType == SHIFT_UP)
+					ii.yScale++;
+				else if(dType == SHIFT_DOWN)
+					ii.yScale--;
+			}
+			else if(sType == IMG_ROTATION)
+			{
+				ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+				if(dType == SHIFT_UP)
+					ii.rotation++;
+				else if(dType == SHIFT_DOWN)
+					ii.rotation--;
+			}
 		}
 		
 		

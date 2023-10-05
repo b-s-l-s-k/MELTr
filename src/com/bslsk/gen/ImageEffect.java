@@ -15,9 +15,9 @@ public class ImageEffect extends Effect {
 	boolean active;
 	int active_img;
 	BufferedImage[] img;
-	int x,y;
-	int xScale, yScale;
-	int rotation;
+	public int x,y;
+	public double xScale, yScale;
+	public int rotation;
 	public ImageEffect()
 	{
 		
@@ -45,9 +45,14 @@ public class ImageEffect extends Effect {
 	@Override
 	public void doEffect(Graphics2D g, BufferedImage i) 
 	{
-		g.rotate(rotation);
-		g.scale(xScale, yScale);
+		Graphics2D b = (Graphics2D)img[active_img].getGraphics();
+		g.rotate(Math.toRadians(rotation));
+		g.scale(xScale, xScale);
+		
+		//b.drawImage(img[active_img], 0, 0, null);
 		g.drawImage(img[active_img], x, y, img[active_img].getWidth(), img[active_img].getHeight(), null);
+		g.rotate(Math.toRadians(rotation));
+		g.scale(xScale, xScale);
 
 	}
 

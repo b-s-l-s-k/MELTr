@@ -24,6 +24,7 @@ import com.bslsk.gen.Effect;
 import com.bslsk.gen.FilterEffect;
 import com.bslsk.gen.GContext;
 import com.bslsk.gen.GlitchEffect;
+import com.bslsk.gen.ImageEffect;
 import com.bslsk.gen.LifeThread;
 import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
@@ -77,7 +78,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	public Painter painter; //----------------------Create Paintmodes - > Implement
 	
-	
+	boolean imgMode;
 	public GFrame()
 	{
 		super("MELTR v0.1a");
@@ -292,14 +293,20 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			//side.setDrawingMode(drawingMode);
 			System.out.println("Drawing mode: " + (drawingMode ? "ON":"OFF"));
 		}
-		if(e.getKeyChar() == '0' && !sbtn)
+		if(e.getKeyChar() == '.')//ENABLE DRAWINGMODE
+		{
+			imgMode = !imgMode;
+			//side.setDrawingMode(drawingMode);
+			System.out.println("Image Mode: " + (imgMode ? "ON":"OFF"));
+		}
+		if(e.getKeyChar() == '0' && !Assets.CTRL)
 			colorchange[0] = !colorchange[0];
 		else if(e.getKeyCode() == KeyEvent.VK_MINUS && !sbtn)
 			colorchange[1] = !colorchange[1];
 		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && !sbtn)
 			colorchange[2] = !colorchange[2];
 		
-		if(e.getKeyChar() == '0' && sbtn)
+		if(e.getKeyChar() == '0' && Assets.CTRL)
 			dmC = new Color(r1.nextInt(80)+126,10,10);
 		else if(e.getKeyCode() == KeyEvent.VK_MINUS && sbtn)
 			dmC = new Color(10,r1.nextInt(80)+126,10);
@@ -346,7 +353,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		if(drawingMode && mDown)
+		if(drawingMode && mDown && !imgMode)
 		{
 			Color backup = new Color(dmC.getRed(),dmC.getGreen(),dmC.getBlue());
 			if(colorchange[0])
@@ -385,6 +392,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			drawG.fillOval(e.getX()-10, e.getY()-15, 30, 30);
 			//drawG.setColor(current);
 		}
+		else if(drawingMode && imgMode && mDown)
+		{
+			drawG.drawImage(((ImageEffect)Assets.effects.get(1)).getActiveImage(), e.getX()-25, e.getY()-25	, 50, 50,null);
+		}
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {	
@@ -395,7 +406,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public void mouseReleased(MouseEvent e) 
 	{
 		mDown = false;
-		if(drawingMode)
+		if(drawingMode && !Assets.CTRL)
 		{
 			//buffer.drawImage(drawI, 0, 0, null);
 			drawG.clearRect(0, 0, width, height);

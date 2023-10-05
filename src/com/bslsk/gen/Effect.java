@@ -12,6 +12,6 @@ public abstract class Effect
 	public abstract void doEffect(Graphics2D g, BufferedImage i);
 	public abstract void toggle();
 	public abstract boolean isEnabled();
-	
+	public abstract void alter(int setting, int value);
 	
 }

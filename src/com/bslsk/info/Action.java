@@ -195,8 +195,10 @@ public class Action
 		}
 		else if( type == SET_EFFECT)
 		{//public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4;
-				
-			Assets.effects.get(sType).toggle();
+			if(Assets.CTRL)
+				Assets.effects.get(sType).alter(0,1);
+			else
+				Assets.effects.get(sType).toggle();
 		}
 		else if( type == SET_SHIFTER)
 		{
@@ -206,7 +208,7 @@ public class Action
 		}
 		else if( type == KEY_DOWN)
 		{
-			Assets.CTRL = !Assets.CTRL;
+			Assets.CTRL = true;
 			System.out.println(Assets.CTRL + " = CTRL" );
 		}
 		else if( type == MOVE_IMG)
@@ -254,6 +256,14 @@ public class Action
 		}
 		
 		
+	}
+	public void unAct(GFrame g)
+	{
+		if( type == KEY_DOWN)
+		{
+			Assets.CTRL = false;
+			System.out.println(Assets.CTRL + " = CTRL" );
+		}
 	}
 	public String toString()
 	{

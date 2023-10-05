@@ -115,5 +115,10 @@ public class FilterEffect extends Effect {
 	public boolean isEnabled() {
 		return active;
 	}
+	@Override
+	public void alter(int setting, int value) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

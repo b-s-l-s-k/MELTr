@@ -31,6 +31,8 @@ public class ImageEffect extends Effect {
 			file = "./res/img/"+file;
 			try {
 				img[c] = ImageIO.read(new File(file));
+				System.out.println(file.toString());
+				c++;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -45,13 +47,19 @@ public class ImageEffect extends Effect {
 	@Override
 	public void doEffect(Graphics2D g, BufferedImage i) 
 	{
-		Graphics2D b = (Graphics2D)img[active_img].getGraphics();
-		b.rotate(Math.toRadians(rotation));
-		//g.scale(xScale, xScale);
-		
+		//Graphics2D b2 = (Graphics2D)img[active_img].getGraphics();
+		//BufferedImage backup = img[active_img].clone();
+		BufferedImage save = new BufferedImage(img[active_img].getWidth(), img[active_img].getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D b = (Graphics2D)save.getGraphics();
+		//b.drawImage(img[active_img], 0, 0, null);
+		b.rotate(Math.toRadians(rotation),img[active_img].getWidth()/2, img[active_img].getHeight()/2);
 		b.drawImage(img[active_img], 0, 0, null);
-		g.drawImage(img[active_img], x, y, (int)(img[active_img].getWidth()*xScale), (int)(img[active_img].getHeight()*xScale), null);
-		g.rotate(Math.toRadians(rotation));
+		//b2.drawImage(save, 0, 0, null);
+		//g.scale(xScale, xScale);
+		//b.
+		
+		g.drawImage(save, x, y, (int)(img[active_img].getWidth()*xScale), (int)(img[active_img].getHeight()*xScale), null);
+		//b.rotate(Math.toRadians(-1*rotation));
 		//g.scale(xScale, xScale);
 
 	}
@@ -66,6 +74,18 @@ public class ImageEffect extends Effect {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return active;
+	}
+	@Override
+	public void alter(int setting, int value) 
+	{
+		active_img ++;
+		if(active_img >= img.length)
+			active_img = 0;
+		System.out.println(active_img+ " = ACTIVE IMG");
+	}
+	public BufferedImage getActiveImage()
+	{
+		return img[active_img];
 	}
 
 }

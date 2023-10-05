@@ -23,7 +23,7 @@ public class Key
 	public void released(GFrame g) 
 	{
 		if(action.getType()[0] == Action.KEY_DOWN)
-			action.act(g);
+			action.unAct(g);
 		
 	}
 	public int getKey() {

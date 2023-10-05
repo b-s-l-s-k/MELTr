@@ -41,5 +41,10 @@ public class GlitchEffect extends Effect {
 	public void toggle(){enabled = !enabled;}
 	@Override
 	public boolean isEnabled() {return enabled;}
+	@Override
+	public void alter(int setting, int value) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

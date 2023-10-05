@@ -1,7 +1,8 @@
 # MELTr
 For manual visualization of live music
 This program allows the user to create trippy/psychedlic visuals that go along with music either playing out of a speaker, or being performed live. 
-![IMG_20230930_150244_186](https://github.com/b-s-l-s-k/MELTr/assets/146375342/8f90c0f1-5150-4b72-bedf-247b637a506e)
+![mltr2](https://github.com/b-s-l-s-k/MELTr/assets/146375342/0a223077-2ed2-4c34-80c3-b5335e53d43b)
+
 
 This was created out of the need for an open-source VJ (Visual Jockey) program as the current market only contains niche products, or hyper expensive multi-faceted ones.
 
@@ -69,6 +70,7 @@ Left/Right - manually change Scale
 PgUp/PgDown - X translation 
 Home/End - Y translation 
 
+![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/f0241498-8a54-40dd-b235-3f905c80b410)
 
 ## CONTROLS:
 Controls are mapped via the file "keys.txt" in the following format

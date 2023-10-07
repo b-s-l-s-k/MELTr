@@ -14,7 +14,7 @@ import com.bslsk.gen.WordContext;
 public class Action 
 {
 	//-----------------------TYPE---------------------------
-	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6, MOVE_IMG = 7;
+	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6, MOVE_IMG = 7, COLOR_CHG = 8;
 	
 	//----------------------S-TYPE--------------------------
 	//----------------------CONTEXT-------------------------
@@ -27,6 +27,7 @@ public class Action
 	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6, DRAW_DIST = 7;
 	//----------------------SHIFTER---------------------------
 	public static final int TOGGLE_ANGLE = 0, TOGGLE_SCALE = 1, TOGGLE_TRANX = 2, TOGGLE_TRANY = 3;
+	public static final int C0 = 0, C1 = 1, C2 = 2;
 	//----------------------DTYPE---------------------------
 	//----------------------SHIFT---------------------------
 	public static final int SHIFT_UP = 0, SHIFT_DOWN = 1 ,SHIFT_SET = 2      ,      SETTING_NA = -1;
@@ -254,7 +255,12 @@ public class Action
 					ii.rotation--;
 			}
 		}
-		
+		else if( type == COLOR_CHG)
+		{
+			gf.brush.setColor(sType);
+			//Assets.CTRL = true;
+			//System.out.println(Assets.CTRL + " = CTRL" );
+		}
 		
 	}
 	public void unAct(GFrame g)

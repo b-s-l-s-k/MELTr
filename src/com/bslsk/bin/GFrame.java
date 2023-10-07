@@ -30,11 +30,12 @@ import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
 import com.bslsk.info.KeyMapper;
 import com.bslsk.info.Preferences;
+import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
 
 public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
-	public static final String VERSION_ID = "0.2.8a";
+	public static final String VERSION_ID = "0";
 	//private static final long serialVersionUID = 1L;
 	public Graphics2D buffer;
 	public BufferedImage iB;
@@ -79,9 +80,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public Painter painter; //----------------------Create Paintmodes - > Implement
 	
 	boolean imgMode;
+	public PaintBrush brush;
 	public GFrame()
 	{
-		super("MELTR v0.1a");
+		super("MELTR");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		width = gd.getDisplayMode().getWidth()/2;
 		height = gd.getDisplayMode().getHeight()/2;
@@ -92,6 +94,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		ratio = ((double)width)/((double)height);
 		Assets.setGlobalConstants(width, height, ratio);
 		Assets.getDefaultContraints();
+		
+		brush = new PaintBrush(width, height);
+		
 		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setUndecorated(true);
 		setSize(width,height);
@@ -104,10 +109,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		
 		r1 = new Random();
 		
-		dmC = Color.gray;
-		drawI = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
-		drawG = (Graphics2D)drawI.getGraphics();
-		drawG.setBackground(new Color(0,0,0,0));
+		brush.dmC = Color.gray;
+		//drawI = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
+		//drawG = (Graphics2D)drawI.getGraphics();
+		//drawG.setBackground(new Color(0,0,0,0));
 
 		filter = new FilterEffect(FilterEffect.TYPE_EDGE, 1);
 			
@@ -213,8 +218,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			if(e.isEnabled())
 				e.doEffect(buffer, iB);
 		
-		buffer.drawImage(drawI, 0, 0, null);
-		
+		buffer.drawImage(brush.getImage(), 0, 0, null);
+		//buffer.drawImage(Assets.BRUSH.getImage(), 0, 0, null);
 		buffer.setColor(Assets.current);
 		for(GContext c : render)
 			c.draw(buffer);
@@ -233,7 +238,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
-		System.out.println(e.getKeyCode());
+		System.out.println(e.getKeyChar() + "    " + e.getKeyCode());
 		if(keyMap.keyPressed(e, this))
 			return;
 					/*
@@ -287,31 +292,31 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 
 		
 		
-		if(e.getKeyChar() == '/')//ENABLE DRAWINGMODE
+		if(e.getKeyChar() == '/')//ENABLE brush.drawingMode
 		{
-			drawingMode = !drawingMode;
-			//side.setDrawingMode(drawingMode);
-			System.out.println("Drawing mode: " + (drawingMode ? "ON":"OFF"));
+			brush.drawingMode = !brush.drawingMode;
+			//side.setbrush.drawingMode(brush.drawingMode);
+			System.out.println("Drawing mode: " + (brush.drawingMode ? "ON":"OFF"));
 		}
-		if(e.getKeyChar() == '.')//ENABLE DRAWINGMODE
+		if(e.getKeyChar() == '.')//ENABLE brush.drawingMode
 		{
-			imgMode = !imgMode;
-			//side.setDrawingMode(drawingMode);
+			brush.imgMode = !brush.imgMode;
+			//side.setbrush.drawingMode(brush.drawingMode);
 			System.out.println("Image Mode: " + (imgMode ? "ON":"OFF"));
 		}
 		if(e.getKeyChar() == '0' && !Assets.CTRL)
-			colorchange[0] = !colorchange[0];
-		else if(e.getKeyCode() == KeyEvent.VK_MINUS && !sbtn)
-			colorchange[1] = !colorchange[1];
-		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && !sbtn)
-			colorchange[2] = !colorchange[2];
+			brush.colorchange[0] = !brush.colorchange[0];
+		else if(e.getKeyCode() == KeyEvent.VK_MINUS && !Assets.CTRL)
+			brush.colorchange[1] = !brush.colorchange[1];
+		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && !Assets.CTRL)
+			brush.colorchange[2] = !brush.colorchange[2];
 		
 		if(e.getKeyChar() == '0' && Assets.CTRL)
-			dmC = new Color(r1.nextInt(80)+126,10,10);
-		else if(e.getKeyCode() == KeyEvent.VK_MINUS && sbtn)
-			dmC = new Color(10,r1.nextInt(80)+126,10);
-		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && sbtn)
-			dmC = new Color(10,10,r1.nextInt(80)+126);
+			brush.dmC = new Color(r1.nextInt(80)+126,10,10);
+		else if(e.getKeyCode() == KeyEvent.VK_MINUS && Assets.CTRL)
+			brush.dmC = new Color(10,r1.nextInt(80)+126,10);
+		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && Assets.CTRL)
+			brush.dmC = new Color(10,10,r1.nextInt(80)+126);
 		
 		if(e.getKeyCode() == KeyEvent.VK_SEMICOLON)
 			triggers[0] = !triggers[0];
@@ -353,68 +358,23 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		if(drawingMode && mDown && !imgMode)
-		{
-			Color backup = new Color(dmC.getRed(),dmC.getGreen(),dmC.getBlue());
-			if(colorchange[0])
-			{
-				try {
-				if(r1.nextBoolean())
-					dmC = new Color(dmC.getRed()+3,dmC.getGreen(),dmC.getBlue());
-				else
-					dmC = new Color(dmC.getRed()-3,dmC.getGreen(),dmC.getBlue());}
-				catch(Exception eee) {dmC = backup;}
-			}
-			if(colorchange[1])
-			{
-				try {
-				if(r1.nextBoolean())
-					dmC = new Color(dmC.getRed(),dmC.getGreen()+1,dmC.getBlue());
-				else
-					dmC = new Color(dmC.getRed(),dmC.getGreen()-1,dmC.getBlue());}
-				catch(Exception eee) {dmC = backup;}
-			}
-			if(colorchange[2])
-			{
-				try {
-				if(r1.nextBoolean())
-					dmC = new Color(dmC.getRed(),dmC.getGreen(),dmC.getBlue()+1);
-				else
-					dmC = new Color(dmC.getRed(),dmC.getGreen(),dmC.getBlue()-1);}
-				catch(Exception eee) {dmC = backup;}
-			}
-			/*
-			buffer.setColor(dmC);
-			buffer.fillOval(e.getX()-10, e.getY()-15, 30, 30);
-			buffer.setColor(current);
-			*/
-			drawG.setColor(dmC);
-			drawG.fillOval(e.getX()-10, e.getY()-15, 30, 30);
-			//drawG.setColor(current);
-		}
-		else if(drawingMode && imgMode && mDown)
-		{
-			drawG.drawImage(((ImageEffect)Assets.effects.get(1)).getActiveImage(), e.getX()-25, e.getY()-25	, 50, 50,null);
-		}
+		brush.paint(e);
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {	
 	}
 	@Override
-	public void mousePressed(MouseEvent e) {mDown = true;}
+	public void mousePressed(MouseEvent e) {brush.mDown = true;}
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
-		mDown = false;
-		if(drawingMode && !Assets.CTRL)
+		brush.mDown = false;
+		if(brush.drawingMode && !Assets.CTRL)
 		{
 			//buffer.drawImage(drawI, 0, 0, null);
-			drawG.clearRect(0, 0, width, height);
+			brush.drawG.clearRect(0, 0, width, height);
 		}
 	}
-	
-	
-	
 	
 	@Override
 	public void keyReleased(KeyEvent e) 
@@ -424,6 +384,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		if(e.getKeyCode() == KeyEvent.VK_CONTROL)
 		{
 			sbtn = false;
+			Assets.CTRL = false;
 			System.out.println("Shift Up");
 		}
 	}
@@ -436,7 +397,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void mouseExited(MouseEvent e) {}
 	
-	public static void main(String[] args) {new SplashScreen(); 
+	public static void main(String[] args) 
+	{ 
+		new SplashScreen(); 
 	//new GFrame();
 	}
 }

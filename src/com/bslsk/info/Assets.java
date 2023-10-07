@@ -13,6 +13,7 @@ import com.bslsk.paint.*;
 
 public class Assets 
 {
+	public static final String VERSION_ID = "v0.2.9a";
 	public static Constraint[] CONSTRAINTS;
 	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3;
 	public static final int CONTEXT_LINE = 0,  CONTEXT_CLEAR = 1,  CONTEXT_COLOR = 2,  CONTEXT_GLITCH = 3;

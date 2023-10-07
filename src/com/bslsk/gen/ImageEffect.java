@@ -87,5 +87,17 @@ public class ImageEffect extends Effect {
 	{
 		return img[active_img];
 	}
+	
+	public BufferedImage getAsPen(boolean rot, boolean sca)
+	{
+		BufferedImage save = new BufferedImage(img[active_img].getWidth(), img[active_img].getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D b = (Graphics2D)save.getGraphics();
+		//b.drawImage(img[active_img], 0, 0, null);
+		if(rot)
+			b.rotate(Math.toRadians(rotation),img[active_img].getWidth()/2, img[active_img].getHeight()/2);
+		
+		b.drawImage(img[active_img], 0, 0, null);
+		return save;
+	}
 
 }

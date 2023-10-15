@@ -24,7 +24,7 @@ public class Action
 	public static final int CHANGE_ANGLE = -1, CHANGE_SCALE = -2, CHANGE_TRANX = -3, CHANGE_TRANY = -4,CHANGE_DRAWTOGGLE = -5;
 	public static final int IMG_X = 0, IMG_Y = 1, IMG_SCALEX = 2, IMG_SCALEY = 3, IMG_ROTATION = 4;
 	//----------------------DRAW-MODE-------------------------
-	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6, DRAW_DIST = 7;
+	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5, DRAW_BURST = 6, DRAW_DIST = 7, DRAW_CENTER = 8;
 	//----------------------SHIFTER---------------------------
 	public static final int TOGGLE_ANGLE = 0, TOGGLE_SCALE = 1, TOGGLE_TRANX = 2, TOGGLE_TRANY = 3;
 	public static final int C0 = 0, C1 = 1, C2 = 2;

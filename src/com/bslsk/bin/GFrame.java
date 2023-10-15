@@ -30,6 +30,7 @@ import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
 import com.bslsk.info.KeyMapper;
 import com.bslsk.info.Preferences;
+import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
 
@@ -74,6 +75,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public int tranY = -1;
 	
 	KeyMapper keyMap;
+	MidiMapper midiMap;
 	public LifeThread lT;
 	Thread lThread;
 	
@@ -81,7 +83,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	boolean imgMode;
 	public PaintBrush brush;
-	public GFrame()
+	public GFrame(boolean show)
 	{
 		super("MELTR");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -100,7 +102,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setUndecorated(true);
 		setSize(width,height);
-		setVisible(true);
+		setVisible(show);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//side = new SideFrame();
@@ -131,15 +133,16 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
-		
+		/*
 		int[] links = new int[] 
 		{
-			0, 1, 1, -1, 3, -1, 5, 7
+			0, 1, 1, -1, 3, -1, 5, 7,8,9
 		};
 		painter = new Painter(Assets.getDefaultPaintModes(width, height, 250), links);
-		
-		keyMap = new KeyMapper("keys.txt");
-		
+		*/
+		painter = Assets.loadPainter("res/modes.txt");
+		keyMap = new KeyMapper("res/keys.txt");
+		midiMap = new MidiMapper("res/midi.txt");
 		System.out.println();
 		//lT = new LifeThread(width/10,height/10,250);
 		//lThread =new Thread(lT);
@@ -302,7 +305,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		{
 			brush.imgMode = !brush.imgMode;
 			//side.setbrush.drawingMode(brush.drawingMode);
-			System.out.println("Image Mode: " + (imgMode ? "ON":"OFF"));
+			System.out.println("Image Mode: " + (brush.imgMode ? "ON":"OFF"));
 		}
 		if(e.getKeyChar() == '0' && !Assets.CTRL)
 			brush.colorchange[0] = !brush.colorchange[0];
@@ -342,7 +345,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
 			if(Assets.CTRL)
-					new MapFrame(keyMap);
+					new MapFrame();
 			System.out.println(
 					"["+(triggers[0] ? "X":" ")+"]"+
 					"["+(triggers[1] ? "X":" ")+"]"+

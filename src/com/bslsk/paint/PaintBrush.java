@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import com.bslsk.gen.ImageEffect;
 import com.bslsk.info.*;
 public class PaintBrush 
 {
@@ -61,10 +63,16 @@ public class PaintBrush
 			}
 
 			drawG.setColor(dmC);
-			drawG.fillOval(e.getX()-10, e.getY()-15, 30, 30);
+			drawG.fillOval(e.getX()-15, e.getY()-15, 30, 30);
 
 		}
-	}
+		if(drawingMode && mDown && imgMode)
+		{
+			ImageEffect ii = (ImageEffect)Assets.effects.get(1);
+			BufferedImage i = ii.img[ii.active_img];
+			drawG.drawImage(i, e.getX(),e.getY(),30,30,null);
+		}
+	}//Assets.effect.get(1)
 	/**
 	 * Gets the current instance of the brush's "drawI"
 	 * @return current instance of drawI

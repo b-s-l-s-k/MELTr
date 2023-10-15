@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 public class ImageEffect extends Effect {
 
 	boolean active;
-	int active_img;
-	BufferedImage[] img;
+	public int active_img;
+	public BufferedImage[] img;
 	public int x,y;
 	public double xScale, yScale;
 	public int rotation;

@@ -1,6 +1,7 @@
 package com.bslsk.bin;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -11,6 +12,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import com.bslsk.info.Assets;
 
 public class SplashScreen extends JFrame implements Runnable
 {
@@ -58,7 +61,7 @@ public class SplashScreen extends JFrame implements Runnable
 			}
 			catch(Exception e) {}
 		}
-		new GFrame();
+		new GFrame(true);
 		this.setVisible(false);
 	}
 	@Override
@@ -70,6 +73,11 @@ public class SplashScreen extends JFrame implements Runnable
 		int max = getWidth()-15;
 		int r = (int)((double)max * ((double)countdown/(double)50.0));
 		g2.fillRect(10,(getHeight()/10)*8,r,30);
+		//40,500
+		g2.setColor(Color.white);
+		//g2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		g2.drawString("MELTr version " + Assets.VERSION_ID, 40, 500);
+		g2.drawString("by B_S_L_S_K", 40, 550);
 		System.out.println(countdown+"");
 	}
 }

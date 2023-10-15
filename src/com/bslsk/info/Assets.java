@@ -2,8 +2,11 @@ package com.bslsk.info;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import com.bslsk.gen.Effect;
 import com.bslsk.gen.GlitchEffect;
@@ -13,13 +16,8 @@ import com.bslsk.paint.*;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.2.9a";
+	public static final String VERSION_ID = "v0.2.15a";
 	public static Constraint[] CONSTRAINTS;
-	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3;
-	public static final int CONTEXT_LINE = 0,  CONTEXT_CLEAR = 1,  CONTEXT_COLOR = 2,  CONTEXT_GLITCH = 3;
-	public static final int SETTING_ANGLE = 0, SETTING_SCALE = 1, SETTING_TRANX = 2, SETTING_TRANY = 3, SETTING_DRAWTOGGLE = 4;
-	public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4, DRAW_LIFE = 5;
-	public static final int SHIFT_UP = 0, SHIFT_DOWN = 1      ,      SETTING_NA = -1;
 	
 	
 	public static int WIDTH, HEIGHT;
@@ -43,9 +41,11 @@ public class Assets
 						new ReflectDoubleMode(),
 						new QuadMode(),
 						new GlitchMode(),
-						new LifeMode(WIDTH,HEIGHT,250),
+						//new LifeMode(WIDTH,HEIGHT,250),
+						new MeltMode(),
 						new BurstMode(),
-						new DistortMode()
+						new DistortMode(),
+						new CenterMode()
 				};
 	}
 	public static PaintMode[] getDefaultPaintModes(int w, int h, int r)
@@ -57,9 +57,11 @@ public class Assets
 						new ReflectDoubleMode(),
 						new QuadMode(),
 						new GlitchMode(),
-						new LifeMode(w,h,r),
+						//new LifeMode(w,h,r),
+						new MeltMode(),
 						new BurstMode(),
-						new DistortMode()
+						new DistortMode(),
+						new CenterMode()
 				};
 	}
 	public static void setGlobalConstants(int w, int h, double r)
@@ -85,6 +87,41 @@ public class Assets
 		drawFont = new Font(Font.SANS_SERIF, Font.BOLD,100);
 		System.out.println(w + "     " + h +"     " + r + "");
 	}
+	
+	
+	public static Painter loadPainter(String loc)
+	{
+		FileInputStream fis;
+		ArrayList<PaintMode> modes = new ArrayList<PaintMode>();
+		ArrayList<Integer> links = new ArrayList<Integer>();
+		try {
+			File f = new File(loc);
+			f = f.getAbsoluteFile();
+			fis = new FileInputStream(f);
+			Scanner s1 = new Scanner(fis);
+			while(s1.hasNext()) // LAYOUT: [keychar] [type] [sType] [dType] 
+			{
+				int next = s1.nextInt();
+				modes.add(Assets.getDefaultPaintModes()[next]);
+				links.add(Integer.valueOf(s1.nextInt()));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int[] lll = new int[links.size()];
+		for(int x = 0; x < lll.length;x ++)
+			lll[x] = links.get(x).intValue();
+		
+		PaintMode[] nMode = new PaintMode[modes.size()];
+		for(int x = 0; x < nMode.length;x ++)
+			nMode[x] = modes.get(x);
+		return new Painter(nMode, lll);
+	}
+	
+	
+	
 	public static Constraint[] getDefaultContraints()
 	{
 		Assets.CONSTRAINTS  = new Constraint[] {

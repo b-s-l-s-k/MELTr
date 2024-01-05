@@ -8,15 +8,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.bslsk.gen.Effect;
-import com.bslsk.gen.GlitchEffect;
-import com.bslsk.gen.ImageEffect;
-import com.bslsk.gen.Shifter;
+import com.bslsk.gen.*;
 import com.bslsk.paint.*;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.2.15a";
+	public static final String VERSION_ID = "v0.2.17a";
 	public static Constraint[] CONSTRAINTS;
 	
 	
@@ -24,6 +21,7 @@ public class Assets
 	public static double RATIO;
 	
 	public static boolean CTRL;
+	public static boolean SHIFT;
 	public static boolean[] ANIM;
 	public static Random R;
 	
@@ -32,6 +30,12 @@ public class Assets
 	
 	public static Font drawFont;
 	public static Color current;
+
+	public static ArrayList<GContext> render;
+
+	public static byte mode;
+
+	public static Painter painter;
 	public static PaintMode[] getDefaultPaintModes()
 	{
 		return new PaintMode[] 
@@ -47,6 +51,10 @@ public class Assets
 						new DistortMode(),
 						new CenterMode()
 				};
+	}
+	public static void initRender()
+	{
+		render = new ArrayList<GContext>();
 	}
 	public static PaintMode[] getDefaultPaintModes(int w, int h, int r)
 	{
@@ -89,7 +97,7 @@ public class Assets
 	}
 	
 	
-	public static Painter loadPainter(String loc)
+	public static void loadPainter(String loc)
 	{
 		FileInputStream fis;
 		ArrayList<PaintMode> modes = new ArrayList<PaintMode>();
@@ -117,7 +125,7 @@ public class Assets
 		PaintMode[] nMode = new PaintMode[modes.size()];
 		for(int x = 0; x < nMode.length;x ++)
 			nMode[x] = modes.get(x);
-		return new Painter(nMode, lll);
+		painter =  new Painter(nMode, lll);
 	}
 	
 	

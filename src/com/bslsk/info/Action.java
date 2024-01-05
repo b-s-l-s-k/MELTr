@@ -56,60 +56,60 @@ public class Action
 	}
 	/**
 	 * Perform a function according to the types, onto the running variables of the GFrame 
-	 * @param gf The GFrame to be manipulated by this Action
+	 *
 	 */
-	public void act(GFrame gf)
+	public void act()
 	{
 		if( type == ADD_CONTEXT)
 		{
 			if(sType == CONTEXT_LINE)
 			{
-				gf.render.add(new LineContext(5,gf.width,gf.height));
+				Assets.render.add(new LineContext(5,Assets.WIDTH,Assets.HEIGHT));
 				
 				return;
 			}
 			else if(sType == CONTEXT_CLEAR)
 			{
-				gf.render.add(new ClearContext(gf.width,gf.height));
+				Assets.render.add(new ClearContext(Assets.WIDTH,Assets.HEIGHT));
 				
 				return;
 			}
 			else if(sType == CONTEXT_COLOR)
 			{
-				gf.render.add(new ColorContext(3,gf.width,gf.height));
+				Assets.render.add(new ColorContext(3,Assets.WIDTH,Assets.HEIGHT));
 				
 				return;
 			}
 			else if(sType == CONTEXT_GLITCH)
 			{
-				gf.render.add(TrailContext.randomContext(gf.width, gf.height));
+				Assets.render.add(TrailContext.randomContext(Assets.WIDTH, Assets.HEIGHT));
 				
 				return;
 			}
 			else if(sType == CONTEXT_WORD)
 			{
-				gf.render.add(new WordContext("words.txt"));
+				Assets.render.add(new WordContext("res/words.txt"));
 				
 				return;
 			}
 			else if(sType == CONTEXT_IMAGE)
 			{
-				gf.render.add(new WordContext("words.txt"));
+				//Assets.render.add(new WordContext("words.txt"));
 				
 				return;
 			}
 			else if(sType == CONTEXT_CIRCLE)
 			{
-				gf.render.add(new CircleContext(5,100));
+				Assets.render.add(new CircleContext(5,100));
 				
 				return;
 			}
 		}
 		else if( type == REMOVE_CONTEXT)
 		{
-			if(gf.render.size() > 0)
+			if(!Assets.render.isEmpty())
 			{
-				gf.render.remove(gf.render.size()-1);
+				Assets.render.removeLast();
 				return;
 			}
 		}
@@ -118,7 +118,7 @@ public class Action
 			
 			if(sType == SETTING_ANGLE)
 			{
-				System.out.println("Angle");
+				System.out.print("Angle:  ");
 				if(dType == SHIFT_UP)
 				{
 					Assets.CONSTRAINTS[0].param += 1;
@@ -127,14 +127,11 @@ public class Action
 				{
 					Assets.CONSTRAINTS[0].param -= 1;
 				}
-				else if(dType == SHIFT_DOWN)
-				{
-					Assets.CONSTRAINTS[0].param -= 1;
-				}
+				System.out.println(Assets.CONSTRAINTS[0].param);
 			}
 			else if(sType == SETTING_SCALE)
 			{
-				System.out.println("SCALE");
+				System.out.print("SCALE:  ");
 				if(dType == SHIFT_UP)
 				{
 					Assets.CONSTRAINTS[1].param += 0.1;
@@ -190,9 +187,8 @@ public class Action
 		}
 		else if( type == SET_DRAW)
 		{//public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4;
-				
-			gf.mode = (byte) (sType);
-			gf.painter.setActive(gf.mode);
+
+			Assets.painter.setActive((byte) (sType));
 		}
 		else if( type == SET_EFFECT)
 		{//public static final int DRAW_NORMAL = 0, DRAW_DOUBLE = 1, DRAW_2XDOUBLE = 2, DRAW_QUAD = 3, DRAW_GLITCH = 4;
@@ -257,7 +253,7 @@ public class Action
 		}
 		else if( type == COLOR_CHG)
 		{
-			gf.brush.setColor(sType);
+			//gf.brush.setColor(sType);
 			//Assets.CTRL = true;
 			//System.out.println(Assets.CTRL + " = CTRL" );
 		}

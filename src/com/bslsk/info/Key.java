@@ -14,7 +14,7 @@ public class Key
 	}
 	public void pressed(GFrame g)
 	{
-		action.act(g);
+		action.act();
 	}
 	public String toString()
 	{

@@ -16,7 +16,7 @@ public class MultiKey extends Key
 	public void pressed(GFrame g)
 	{
 		for(Action a: actions)
-			a.act(g);
+			a.act();
 	}
 	public String toString()
 	{

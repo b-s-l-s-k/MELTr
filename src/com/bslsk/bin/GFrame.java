@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.net.URL;
+//import java.net.URL;
 //import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,8 +23,8 @@ import javax.swing.JFrame;
 import com.bslsk.gen.Effect;
 import com.bslsk.gen.FilterEffect;
 import com.bslsk.gen.GContext;
-import com.bslsk.gen.GlitchEffect;
-import com.bslsk.gen.ImageEffect;
+//import com.bslsk.gen.GlitchEffect;
+//import com.bslsk.gen.ImageEffect;
 import com.bslsk.gen.LifeThread;
 import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
@@ -55,8 +55,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public int height;
 	public double ratio;
 	//final String[] presets = {"Regular","Double","2xDouble", "Quad","Glitch"}; 
-	int colorMode = 1; 
-	//String[] cModes = {"Black","Random Color","ProgresiveColor"};
+	int colorMode = 2;
+	//String[] cModes = {"Black","Random Color","ProgressiveColor"};
 	
 	
 	FilterEffect filter;
@@ -76,12 +76,12 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	KeyMapper keyMap;
 	MidiMapper midiMap;
-	public LifeThread lT;
-	Thread lThread;
+	//public LifeThread lT;
+	//Thread lThread;
 	
 	public Painter painter; //----------------------Create Paintmodes - > Implement
 	
-	boolean imgMode;
+	//boolean imgMode;
 	public PaintBrush brush;
 	public GFrame(boolean show)
 	{
@@ -126,7 +126,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		buffer.setBackground(Color.white);
 		buffer.clearRect(0, 0, width, height);
 		current = Color.white;
-		render = new ArrayList<GContext>();
+		//render = new ArrayList<GContext>();
+		Assets.initRender();
 		angle = 0;
 		scale = 0;
 		addKeyListener(this);
@@ -140,7 +141,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		};
 		painter = new Painter(Assets.getDefaultPaintModes(width, height, 250), links);
 		*/
-		painter = Assets.loadPainter("res/modes.txt");
+		Assets.loadPainter("res/modes.txt");
 		keyMap = new KeyMapper("res/keys.txt");
 		midiMap = new MidiMapper("res/midi.txt");
 		System.out.println();
@@ -158,41 +159,43 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		while(true)
 		{
 			if(hold)
-			try
-			{
-				//----------COLOR MODES----------
-				if(colorMode == 0)//static black
-					Assets.current = Color.black;
-				else if(colorMode == 1)//random 
-				{
-					Assets.current = new Color(
-							Assets.current.getRed() + r1.nextInt(3)-1, 
-							Assets.current.getGreen() + r1.nextInt(3)-1,
-							Assets.current.getBlue()+ r1.nextInt(3)-1
-					);
-				}
-				else if(colorMode == 2)//progressive
-				{
-					int n = r1.nextInt(3);
-					int n2 = r1.nextInt(3)-1;
-					if(n == 0)
-						Assets.current = new Color(Assets.current.getRed() + n2, Assets.current.getGreen(), Assets.current.getBlue());
-					else if(n == 1)
-						Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen()+ n2, Assets.current.getBlue());
-					else if(n == 2)
-						Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen(), Assets.current.getBlue()+ n2);
-				
-				}
-			}
-			catch(Exception e) 
-			{
-				//System.out.println("NEW COLOR GENERATED");
-			}
-			finally {Assets.current = new Color(r1.nextInt(256),r1.nextInt(256),r1.nextInt(256));}
+            {
+                try
+                {
+                    //----------COLOR MODES----------
+                    if(colorMode == 0)//static black
+                        Assets.current = Color.black;
+                    else if(colorMode == 1)//random
+                    {
+                        Assets.current = new Color(
+                                Assets.current.getRed() + r1.nextInt(3)-1,
+                                Assets.current.getGreen() + r1.nextInt(3)-1,
+                                Assets.current.getBlue()+ r1.nextInt(3)-1
+                        );
+                    }
+                    else if(colorMode == 2)//progressive
+                    {
+                        int n = r1.nextInt(3);
+                        int n2 = r1.nextInt(3)-1;
+                        if(n == 0 && (Assets.current.getRed() + n2 < 255 && Assets.current.getRed() + n2 > 0))
+                                Assets.current = new Color(Assets.current.getRed() + n2, Assets.current.getGreen(), Assets.current.getBlue());
+                        else if(n == 1 && (Assets.current.getGreen() + n2 < 255 && Assets.current.getGreen() + n2 > 0))
+                                Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen()+ n2, Assets.current.getBlue());
+                        else if(n == 2 && (Assets.current.getBlue() + n2 < 255 && Assets.current.getBlue() + n2 > 0))
+                                Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen(), Assets.current.getBlue()+ n2);
+
+                    }
+}
+catch(Exception e)
+{
+                System.out.println("NEW COLOR GENERATED");
+}
+            }
+			//finally {Assets.current = new Color(r1.nextInt(256),r1.nextInt(256),r1.nextInt(256));}
 			if(hold)
 			{
 				
-				for(GContext c : render)
+				for(GContext c : Assets.render)
 					c.step();
 				//Shifters
 				for(Shifter s : Assets.shifts)
@@ -224,11 +227,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		buffer.drawImage(brush.getImage(), 0, 0, null);
 		//buffer.drawImage(Assets.BRUSH.getImage(), 0, 0, null);
 		buffer.setColor(Assets.current);
-		for(GContext c : render)
+		for(GContext c : Assets.render)
 			c.draw(buffer);
 		
 		
-		painter.update(this); // SEND TO PAINTER
+		Assets.painter.update(this); // SEND TO PAINTER
 	
 		
 		
@@ -244,6 +247,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		System.out.println(e.getKeyChar() + "    " + e.getKeyCode());
 		if(keyMap.keyPressed(e, this))
 			return;
+
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+		{
+			Assets.SHIFT = true;
+		}
 					/*
 		if(e.getKeyChar() == 'q')
 		{
@@ -259,9 +267,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			return;
 		}
 		*/
-		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && render.size() > 0)
+		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && !render.isEmpty())
 		{	
-			render.remove(render.size()-1);
+			render.removeLast();
 			//side.removeItem();
 			return;
 		}
@@ -272,10 +280,26 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			else
 				hold = !hold;
 		}
-		else if(e.getKeyChar() == 'z')
+		else if(e.getKeyChar() == 'z') //TODO: Move to method within Assets
 		{
 			angle = 0;
 			scale = 1;
+			tranX = 0;
+			tranY= 0 ;
+			Assets.CONSTRAINTS[0].param = 0;
+
+			Assets.CONSTRAINTS[1].param = 1;
+
+			Assets.CONSTRAINTS[2].param = 0;
+
+			Assets.CONSTRAINTS[3].param = 0;
+			/*
+			Assets.CONSTRAINTS  = new Constraint[] {
+			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-45,45}) 	,
+			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,2}) ,
+			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
+			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
+			 */
 			return;
 		}
 		else if(e.getKeyChar() == 'x')
@@ -346,6 +370,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		{
 			if(Assets.CTRL)
 					new MapFrame();
+			else if(Assets.SHIFT)
+			{
+				System.out.println("Opening Command Frame");
+				new CommandFrame(this);
+			}
 			System.out.println(
 					"["+(triggers[0] ? "X":" ")+"]"+
 					"["+(triggers[1] ? "X":" ")+"]"+
@@ -382,6 +411,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+		{
+			Assets.SHIFT = false;
+		}
 		if(keyMap.keyReleased(e, this))
 			return;
 		if(e.getKeyCode() == KeyEvent.VK_CONTROL)
@@ -390,6 +423,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			Assets.CTRL = false;
 			System.out.println("Shift Up");
 		}
+
+
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {}

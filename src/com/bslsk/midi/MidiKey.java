@@ -16,7 +16,7 @@ public class MidiKey
 	}
 	public void pressed(GFrame g)
 	{
-		action.act(g);
+		action.act();
 	}
 	public String toString()
 	{

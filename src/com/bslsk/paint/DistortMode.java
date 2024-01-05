@@ -12,10 +12,10 @@ public class DistortMode extends PaintMode {
 	@Override
 	public void paintTo(GFrame g) 
 	{
-		for(int x = 0; x < g.getWidth()/2; x += g.width/(g.ratio*4))
-			for(int y = 0; y < g.getHeight();y+=g.height/4)
+		for(int x = 0; x < g.getWidth()/2; x += g.width/(int)(g.ratio*4))
+			for(int y = 0; y < g.getHeight();y+=g.height/(int)(g.ratio*4))
 			{
-				BufferedImage n = g.iB.getSubimage(x, y,g.width/(int)(g.ratio*4), g.height/4);
+				BufferedImage n = g.iB.getSubimage(x, y,g.width/(int)(g.ratio*4), g.height/(int)(g.ratio*4));
 				Graphics2D nG = (Graphics2D)n.getGraphics();
 				
 				//if(g.triggers[1])

@@ -9,11 +9,16 @@ import com.bslsk.info.Assets;
 public class ReflectDoubleMode extends PaintMode {
 
 	@Override
-	public void paintTo(GFrame g) {
-		for(int x = 0; x < g.getWidth()/2; x += Assets.WIDTH/(Assets.RATIO*8))
-			for(int y = 0; y < g.getHeight();y+=Assets.HEIGHT/8)
+	public void paintTo(GFrame g)
+	{
+		for(int x = 0; x < g.width/2; x += g.width/(g.ratio*8))
+			for(int y = 0; y < g.height;y+=(g.height/(g.ratio*8)))
 			{
-				BufferedImage n = g.iB.getSubimage(x, y,Assets.WIDTH/(int)(Assets.RATIO*8), Assets.HEIGHT/8);
+				if(y + (g.height/4) >= g.height)
+					break;
+
+				//System.out.println(y + "     " + g.height);
+				BufferedImage n = g.iB.getSubimage(x, y,g.width/(int)(g.ratio*8), (int)(g.ratio*8));
 				Graphics2D nG = (Graphics2D)n.getGraphics();
 				//if(triggers[0])
 					//nG.scale(scale, scale);

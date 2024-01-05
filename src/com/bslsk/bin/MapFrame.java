@@ -298,7 +298,7 @@ public class MapFrame extends JFrame implements MouseListener, KeyListener, Mous
 	{	
 		for(int x = 0; x < buttons.length; x ++)
 			for(int y = 0; y < buttons[x].length; y++)
-				if(buttons[x][y].isIn(e))
+				if(buttons[x][y].isInside(e))
 				{
 					selected[0] = x;
 					selected[1] = y;
@@ -326,7 +326,7 @@ public class MapFrame extends JFrame implements MouseListener, KeyListener, Mous
 	{
 		for(int x = 0; x < buttons.length; x ++)
 			for(int y = 0; y < buttons[x].length; y++)
-				if(buttons[x][y].isIn(e))
+				if(buttons[x][y].isInside(e))
 				{
 					selected[0] = x;
 					selected[1] = y;

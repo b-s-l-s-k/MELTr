@@ -87,8 +87,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	{
 		super("MELTR");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		width = gd.getDisplayMode().getWidth()/2;
-		height = gd.getDisplayMode().getHeight()/2;
+		width = gd.getDisplayMode().getWidth()/3;
+		height = gd.getDisplayMode().getHeight()/3;
 
 		Image img = Toolkit.getDefaultToolkit().createImage("res/logo.png");
 		this.setIconImage(img);
@@ -100,7 +100,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		brush = new PaintBrush(width, height);
 		
 		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		setUndecorated(true);
+		//setUndecorated(true);
 		setSize(width,height);
 		setVisible(show);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

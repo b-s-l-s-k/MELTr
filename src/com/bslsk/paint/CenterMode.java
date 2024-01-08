@@ -14,7 +14,7 @@ public class CenterMode extends PaintMode {
 		//Copy current screen
 		BufferedImage nFrame = new BufferedImage(g.iB.getWidth(),g.iB.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D nG = (Graphics2D)nFrame.getGraphics();
-		if(g.triggers[2])
+		if(Assets.triggers[2])
 			nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 		nG.drawImage(g.iB, 0, 0, null);
 		
@@ -23,7 +23,7 @@ public class CenterMode extends PaintMode {
 		int h = nFrame.getHeight()/5;
 		int x = w*2;
 		int y = h*2;
-		if(g.triggers[2])
+		if(Assets.triggers[2])
 			nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 		nG.drawImage(nFrame, 0, 0,null);
 		g.buffer.drawImage(nFrame, x, y, w, h, null);

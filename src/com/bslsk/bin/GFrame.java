@@ -69,10 +69,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	BufferedImage drawI;
 	Graphics2D drawG;
 	
-	public boolean[] triggers = {false,false,false};
-	
-	public int tranX = -1;
-	public int tranY = -1;
+	//public boolean[] triggers = {false,false,false};
 	
 	KeyMapper keyMap;
 	MidiMapper midiMap;
@@ -87,9 +84,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	{
 		super("MELTR");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		width = gd.getDisplayMode().getWidth()/3;
-		height = gd.getDisplayMode().getHeight()/3;
-
+		//width = gd.getDisplayMode().getWidth();
+		//height = gd.getDisplayMode().getHeight();
+		width = 1920/2;
+		height = 1080/2;
 		Image img = Toolkit.getDefaultToolkit().createImage("res/logo.png");
 		this.setIconImage(img);
 		System.out.println(width + "         " + height);
@@ -237,7 +235,7 @@ catch(Exception e)
 		
 		
 		filter.doEffect(buffer, iB);
-		g.drawImage(iB, 0, 0, width, height, null);
+		g.drawImage(iB, 0, 0, this.getWidth(), this.getHeight(), null);
 					
 	}
 	
@@ -252,22 +250,7 @@ catch(Exception e)
 		{
 			Assets.SHIFT = true;
 		}
-					/*
-		if(e.getKeyChar() == 'q')
-		{
-			Assets.effects.get(0).toggle();
-			return;
-		}
-		else if(e.getKeyChar() == 'w')
-		{
-			return;
-		}
-		else if(e.getKeyChar() == 'e')
-		{
-			return;
-		}
-		*/
-		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && !render.isEmpty())
+		else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && !render.isEmpty())
 		{	
 			render.removeLast();
 			//side.removeItem();
@@ -282,10 +265,6 @@ catch(Exception e)
 		}
 		else if(e.getKeyChar() == 'z') //TODO: Move to method within Assets
 		{
-			angle = 0;
-			scale = 1;
-			tranX = 0;
-			tranY= 0 ;
 			Assets.CONSTRAINTS[0].param = 0;
 
 			Assets.CONSTRAINTS[1].param = 1;
@@ -316,44 +295,36 @@ catch(Exception e)
 			//System.out.println("Color Mode: " + cModes[colorMode]);
 			return;
 		}
-
-		
-		
-		if(e.getKeyChar() == '/')//ENABLE brush.drawingMode
+		else if(e.getKeyChar() == '/')//ENABLE brush.drawingMode
 		{
 			brush.drawingMode = !brush.drawingMode;
 			//side.setbrush.drawingMode(brush.drawingMode);
 			System.out.println("Drawing mode: " + (brush.drawingMode ? "ON":"OFF"));
 		}
-		if(e.getKeyChar() == '.')//ENABLE brush.drawingMode
+		else if(e.getKeyChar() == '.')//ENABLE brush.drawingMode
 		{
 			brush.imgMode = !brush.imgMode;
 			//side.setbrush.drawingMode(brush.drawingMode);
 			System.out.println("Image Mode: " + (brush.imgMode ? "ON":"OFF"));
 		}
-		if(e.getKeyChar() == '0' && !Assets.CTRL)
+		else if(e.getKeyChar() == '0' && !Assets.CTRL)
 			brush.colorchange[0] = !brush.colorchange[0];
 		else if(e.getKeyCode() == KeyEvent.VK_MINUS && !Assets.CTRL)
 			brush.colorchange[1] = !brush.colorchange[1];
 		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && !Assets.CTRL)
 			brush.colorchange[2] = !brush.colorchange[2];
-		
-		if(e.getKeyChar() == '0' && Assets.CTRL)
+		else if(e.getKeyChar() == '0' && Assets.CTRL)
 			brush.dmC = new Color(r1.nextInt(80)+126,10,10);
 		else if(e.getKeyCode() == KeyEvent.VK_MINUS && Assets.CTRL)
 			brush.dmC = new Color(10,r1.nextInt(80)+126,10);
 		else if(e.getKeyCode() == KeyEvent.VK_EQUALS && Assets.CTRL)
 			brush.dmC = new Color(10,10,r1.nextInt(80)+126);
-		
-		if(e.getKeyCode() == KeyEvent.VK_SEMICOLON)
-			triggers[0] = !triggers[0];
-		else if(e.getKeyCode() == KeyEvent.VK_QUOTE )
-			triggers[1] = !triggers[1];	
-		else if(e.getKeyCode() == KeyEvent.VK_BACK_SLASH)
-			triggers[2] = !triggers[2];
-
+		else if(e.getKeyCode() == KeyEvent.VK_QUOTE)
+		{
+			Assets.toggleTriggers();
+		}
 		//CONTROL KEY
-		if(e.getKeyCode() == KeyEvent.VK_CONTROL)
+		else if(e.getKeyCode() == KeyEvent.VK_CONTROL)
 		{
 			sbtn = true;
 			System.out.println("Shift Down");
@@ -364,8 +335,6 @@ catch(Exception e)
 			//lT.dump();
 				System.exit(1);
 		}
-		//side.updateList(new String[] {render.size()+"", mode + "", angle + "", scale + "", colorMode + ""});
-		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
 			if(Assets.CTRL)
@@ -376,11 +345,11 @@ catch(Exception e)
 				new CommandFrame(this);
 			}
 			System.out.println(
-					"["+(triggers[0] ? "X":" ")+"]"+
-					"["+(triggers[1] ? "X":" ")+"]"+
-					"["+(triggers[2] ? "X":" ")+"]"+
+					"["+(Assets.triggers[0] ? "X":" ")+"]"+
+					"["+(Assets.triggers[1] ? "X":" ")+"]"+
+					"["+(Assets.triggers[2] ? "X":" ")+"]"+
 					
-					"TRANSITION X: " + tranX + "   Y: "+ tranY + "   Angle:" + angle + "   Scale" + scale
+					"TRANSITION X: " + Assets.CONSTRAINTS[2].param + "   Y: "+ Assets.CONSTRAINTS[3].param + "   Angle:" + Assets.CONSTRAINTS[0].param + "   Scale" + Assets.CONSTRAINTS[1].param
 					);
 		}
 	}

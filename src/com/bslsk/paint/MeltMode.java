@@ -50,20 +50,20 @@ public class MeltMode extends PaintMode {
 			Graphics2D nG = (Graphics2D)quads2[x].getGraphics();
 			if(x % 2 == 0)
 			{
-				if(g.triggers[0])
+				if(Assets.triggers[0])
 					nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
-				if(g.triggers[1])
+				if(Assets.triggers[1])
 					nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
-				if(g.triggers[2])
+				if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 			}
 			else
 			{
-				if(g.triggers[0])
+				if(Assets.triggers[0])
 					nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
-				if(g.triggers[1])
+				if(Assets.triggers[1])
 					nG.translate(Assets.CONSTRAINTS[2].param * -1, Assets.CONSTRAINTS[3].param * -1);
-				if(g.triggers[2])
+				if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param)*-1);
 			}
 			nG.drawImage(quads2[x], 0, 0, null);

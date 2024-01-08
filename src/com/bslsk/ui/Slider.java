@@ -10,6 +10,7 @@ public class Slider
 	public int width,height;
     public int x,y;
     public double min, max;
+    public double step;
     public double value;
     String label;
     public int mode;
@@ -27,6 +28,17 @@ public class Slider
         value = valueI;
 
         range = Math.abs(min) + Math.abs(max);
+        step = 0;
+    }
+    public Slider(int modeI, double minI, double maxI, double valueI ,double stp)
+    {
+        mode= modeI;
+        min = minI;
+        max = maxI;
+        value = valueI;
+
+        range = Math.abs(min) + Math.abs(max);
+        step = stp;
     }
     public void setBounds(int x2, int y2, int w, int h)
     {
@@ -39,13 +51,30 @@ public class Slider
 
     public Rectangle getFillBounds()
     {
-        double calcValue = (value*(double)height)/max;
+        double calcValue = (value*(double)height)/range;
         int barX = x;
         //int barY = y+height-(int)calcValue;
         int barY = (int)calcValue;
         int barWidth = width;
         int barHeight = height - (int)calcValue;
         return new Rectangle(barX,barY,barWidth,barHeight);
+    }
+    public void draw(Graphics2D b)
+    {
+        b.setColor(Color.black);
+        b.drawRect(x,y,width,height);
+        Rectangle bounds = getFillBounds();
+        b.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
+        if(step > 0)
+        {
+            double nStep = range/step;
+            int mark = height/(int)nStep;
+            b.setColor(Color.white);
+            for(int z = 0; z < nStep; z ++)
+                b.drawLine(x,y+(z*mark),x+width,y+(z*mark));
+
+        }
+        //System.out.println(sliders[x].toString());
     }
     public Rectangle getBounds()
     {
@@ -60,13 +89,15 @@ public class Slider
             value = min;
         else
         {
-            value = (max*ay)/height;
+            value = ((range*ay)/height);
         }
-        Assets.CONSTRAINTS[t].param = value;
+        System.out.println(TYPES[t] + "   " + (value-(range/2)));
+        Assets.CONSTRAINTS[t].param = value-(range/2);
     }
 
     public String toString()
     {
         return "x: " + x + "   y: " + y + "   w: " + width + "   h: " + height;
     }
+    public final String[] TYPES = {"Angle", "Scale", "TranX", "TranY"};
 }

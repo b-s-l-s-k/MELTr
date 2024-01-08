@@ -14,11 +14,8 @@ import javax.swing.event.ChangeListener;
 
 import com.bslsk.info.Assets;
 import com.bslsk.info.Preferences;
-import com.bslsk.ui.CButtonGroup;
-import com.bslsk.ui.Slider;
+import com.bslsk.ui.*;
 import com.bslsk.info.Action;
-import com.bslsk.ui.TPanel;
-import com.bslsk.ui.TimeLine;
 import org.w3c.dom.css.Rect;
 
 import java.io.Serial;
@@ -35,6 +32,9 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 
 	Slider[] sliders;
 	CButtonGroup buttons;
+	Screen screen;
+	CommandButton switcher;
+	boolean swapped; // whether screen is visible or not
 	boolean[] selected = {false,false,false,false};
 	public CommandFrame(GFrame par)
 	{
@@ -51,7 +51,7 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 		int rWidth = width-rightSide;
 		int rHeight = height;
 
-		buttons = new CButtonGroup(rightSide,0,rWidth,rHeight, CButtonGroup.LAYOUT_GRID);
+		buttons = new CButtonGroup(rightSide,0,rWidth,rHeight, new int[] {3,3});
 		//49-54 keys
 		//3 0 -1 through 3 5 -1
 		buttons.addButton(
@@ -86,10 +86,10 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 		);
 		sliders = new Slider[]
 		{
-				new Slider(1,-45,45,0), // angle
-				new Slider(1,0.5,2.0,1), // scale
-				new Slider(1,-3,3,0), //tran x
-				new Slider(1,-3,43,0),//tran y
+				new Slider(1,-45,45,0,1), // angle
+				new Slider(1,0.5,2.0,1,.05), // scale
+				new Slider(1,-3,3,0,1), //tran x
+				new Slider(1,-3,3,0,1),//tran y
 
 		};
 		int nW = width - rWidth;
@@ -101,7 +101,11 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 		sliders[2].setBounds(((pd*3)+(sliderW)*2),30,sliderW,getHeight()-60);
 		sliders[3].setBounds(((pd*4)+(sliderW)*3),30,sliderW,getHeight()-60);
 
-
+		screen = new Screen(width,height);
+		switcher = new CommandButton(null);
+		switcher.setStyle("Switch", Color.YELLOW);
+		switcher.setBounds(width-100,height-100,100,100);
+		swapped = false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -112,33 +116,47 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 	{
 		b.setColor(Color.white);
 		b.fillRect(0,0,this.getWidth(),this.getHeight());
-		b.setColor(Color.black);
-		for(int x = 0; x < sliders.length;x ++)
+		//b.setColor(Color.black);
+		if(!swapped)
 		{
-			b.drawRect(sliders[x].x,sliders[x].y,sliders[x].width,sliders[x].height);
-			Rectangle bounds = sliders[x].getFillBounds();
-			b.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
-			//System.out.println(sliders[x].toString());
+			for (Slider slider : sliders)
+				slider.draw(b);
+			buttons.draw(b);
 		}
-		buttons.draw(b);
+		else
+		{
+			screen.draw(b);
+		}
+		switcher.draw(b);
 		g.drawImage(buffer,0,0,getWidth(),getHeight(),null);
 	}
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		if(buttons.contains(e.getX(),e.getY()))
+		if(switcher.contains(e.getX(),e.getY()))
 		{
-			buttons.press(e.getX(), e.getY());
-			return;
+			swapped = !swapped;
+		}
+		if(!swapped)
+		{
+			if (buttons.contains(e.getX(), e.getY()))
+			{
+				buttons.press(e.getX(), e.getY());
+				return;
+			}
+			else
+			{
+				for (int x = 0; x < sliders.length; x++)
+				{
+					if (sliders[x].getBounds().contains(e.getX(), e.getY()))
+						selected[x] = true;
+
+				}
+			}
 		}
 		else
 		{
-			for (int x = 0; x < sliders.length; x++)
-			{
-				if (sliders[x].getBounds().contains(e.getX(), e.getY()))
-					selected[x] = true;
-
-			}
+			screen.press(e.getX(),e.getY());
 		}
 		//System.out.println("MouseDown");
 		repaint();

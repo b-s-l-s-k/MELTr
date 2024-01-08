@@ -24,12 +24,12 @@ public class ReflectDoubleMode extends PaintMode {
 					//nG.scale(scale, scale);
 				//if(triggers[1])
 					//nG.translate(tranX, tranY);
-				if(g.triggers[2])
+				if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 				
 				
 				nG.drawImage(n, 0, 0, Assets.WIDTH/(int)(Assets.RATIO*8), Assets.HEIGHT/8, null);
-				if(g.triggers[1])
+				if(Assets.triggers[1])
 					g.buffer.drawImage(n, x+(int)Assets.CONSTRAINTS[2].param, y+(int)Assets.CONSTRAINTS[3].param, (int)((Assets.WIDTH/(int)(Assets.RATIO*8))*Assets.CONSTRAINTS[1].param), (int)((Assets.HEIGHT/8) * Assets.CONSTRAINTS[1].param), null);
 				else
 					g.buffer.drawImage(n, x, y, Assets.WIDTH/(int)(Assets.RATIO*8), Assets.HEIGHT/8, null);

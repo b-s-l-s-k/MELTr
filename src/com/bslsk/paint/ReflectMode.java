@@ -23,17 +23,17 @@ public class ReflectMode extends PaintMode
 				BufferedImage n = g.iB.getSubimage(x, y,g.width/(int)(g.ratio*4), (g.height/4));
 				Graphics2D nG = (Graphics2D)n.getGraphics();
 
-				if(g.triggers[0])
+				if(Assets.triggers[0])
 					nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
-				if(g.triggers[1])
+				if(Assets.triggers[1])
 					nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
-				if(g.triggers[2])
+				if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 				
 				
 				nG.drawImage(n, 0, 0, g.width/(int)(g.ratio*4), g.height/4, null);
 
-				if(g.triggers[1])
+				if(Assets.triggers[1])
 					g.buffer.drawImage(n, x+(int)Assets.CONSTRAINTS[2].param, y+(int)Assets.CONSTRAINTS[3].param, g.width/(int)(g.ratio*4), g.height/4, null);
 				else
 					g.buffer.drawImage(n, x, y, g.width/(int)(g.ratio*4), g.height/4, null);

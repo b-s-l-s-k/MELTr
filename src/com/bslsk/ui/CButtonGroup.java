@@ -13,29 +13,33 @@ public class CButtonGroup
     public ArrayList<CommandButton> buttons;
     int x,y;
     int width,height;
-    int layout;
+    int[] layout;
 
     Graphics2D buffer;
     BufferedImage img;
-    public CButtonGroup(int x1, int y1, int w, int h, int lo)
+
+
+    //Layout Info
+    int padding;
+    public CButtonGroup(int x1, int y1, int w, int h, int[] l)
     {
         x = x1;
         y = y1;
         width = w;
         height =h;
         buttons = new ArrayList<CommandButton>();
-        layout = lo;
+        layout = l;
 
         img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
         buffer = (Graphics2D)img.getGraphics();
+
+        padding = width/(layout[0]*2);
     }
 
     public void addButton(Action a, String text, Color color)
     {
         CommandButton ncb = new CommandButton(a);
-        if(layout == LAYOUT_GRID)
-        {
-            int padding = width/6;
+            int padding = width/(layout[0]*2);
             int bW = (width/2)-(padding*2);
             int bH = bW;
             int size = buttons.size();
@@ -47,10 +51,22 @@ public class CButtonGroup
             //int adj = size/2;
             bY = (bH+(padding*2))*(size/2)+50;
             ncb.setBounds(bX,bY,bW,bH);
-
-        }
         ncb.setStyle(text,color);
         buttons.add(ncb);
+    }
+    public void addButton2(Action a, String text, Color color)
+    {
+        CommandButton ncb = new CommandButton(a);
+
+        buttons.add(ncb);
+        int total = buttons.size();
+
+        int row = total / layout[1];
+        int column = total % layout[0];
+
+        int px = (column * padding)*2;
+        int py = (row * padding)*2;
+        buttons.getLast().setBounds(px,py,padding,padding);
     }
     //Precondition: contains(x,y) returned true
     public void press(int mx, int my)

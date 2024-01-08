@@ -36,6 +36,8 @@ public class Assets
 	public static byte mode;
 
 	public static Painter painter;
+
+	public static boolean[] triggers;
 	public static PaintMode[] getDefaultPaintModes()
 	{
 		return new PaintMode[] 
@@ -93,7 +95,9 @@ public class Assets
 		effects.add(new ImageEffect());
 		
 		drawFont = new Font(Font.SANS_SERIF, Font.BOLD,100);
-		System.out.println(w + "     " + h +"     " + r + "");
+
+		triggers = new boolean[] {false,false,false,false};
+		System.out.println(w + "     " + h +"     " + r );
 	}
 	
 	
@@ -130,7 +134,7 @@ public class Assets
 	
 	
 	
-	public static Constraint[] getDefaultContraints()
+	public static void getDefaultContraints()
 	{
 		Assets.CONSTRAINTS  = new Constraint[] {
 			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-45,45}) 	,
@@ -138,7 +142,6 @@ public class Assets
 			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
 			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
 		};
-		return Assets.CONSTRAINTS;
 	}
 	public static Constraint getConstraintBy(int type)
 	{
@@ -158,5 +161,8 @@ public class Assets
 	{
 		ANIM[x] = !ANIM[x];
 	}
-
+	public static void toggleTriggers()
+	{
+		triggers = new boolean[] {!triggers[0],!triggers[1],!triggers[2],!triggers[3]};
+	}
 }

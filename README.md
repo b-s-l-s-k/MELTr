@@ -1,7 +1,7 @@
 # MELTr
 For manual visualization of live music
 This program allows the user to create trippy/psychedlic visuals that go along with music either playing out of a speaker, or being performed live. 
-![mltr2](https://github.com/b-s-l-s-k/MELTr/assets/146375342/0a223077-2ed2-4c34-80c3-b5335e53d43b)
+
 
 
 This was created out of the need for an open-source VJ (Visual Jockey) program as the current market only contains niche products, or hyper expensive multi-faceted ones.
@@ -14,9 +14,11 @@ The current configuration is as follows ny default:
 
 Once the program starts, a little splashs reen will appear. After its done loading, a white window will appear. Omce kt does, Press the SPACE bar and it will enable the thread. 
 
-It is recommended that the user presses /, l, ;, ', O, P, -, =, 2, D
+It is recommended that the user presses the keys: / ' Space 2 d s a
 In that order, to get started. 
 [Key] [Mapping]
+
+Shift+Enter - Open CommandFrame
 
 SPACE - Start/Stop
 
@@ -55,11 +57,7 @@ O - Toggle Rotation Shifter
 
 P - Toggle Scale Shifter
 
-L - Enable Angle
-
-; - Enable Scale
-
-' - Enable Translation
+' - Enable Transformations (Angle Scale TranlationX&Y)
 
 / - Enable Drawing Mode
 
@@ -69,8 +67,6 @@ Up/Down -manually change Angle
 Left/Right - manually change Scale
 PgUp/PgDown - X translation 
 Home/End - Y translation 
-
-![meltr drawio](https://github.com/b-s-l-s-k/MELTr/assets/146375342/f0241498-8a54-40dd-b235-3f905c80b410)
 
 ## CONTROLS:
 Controls are mapped via the file "keys.txt" in the following format
@@ -119,7 +115,6 @@ Keycode corresponds to the output of KeyEvent.getKeyCode();
 ----------------------SHIFTER---------------------------
 
 > public static final int TOGGLE_ANGLE = 0, TOGGLE_SCALE = 1, TOGGLE_TRANX = 2, TOGGLE_TRANY = 3;
-
 
  
 ======================DIRECTION-TYPE====================

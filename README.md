@@ -7,12 +7,12 @@ This program allows the user to create trippy/psychedlic visuals that go along w
 This was created out of the need for an open-source VJ (Visual Jockey) program as the current market only contains niche products, or hyper expensive multi-faceted ones.
 
 ## GOALS:
-To create a VJ program the is efficient, easy to use, and super customizable. 
+To create a VJ program the is resource efficient, easy to use, and highly customizable. 
 
 ## Getting Started 
 The current configuration is as follows ny default:
 
-Once the program starts, a little splashs reen will appear. After its done loading, a white window will appear. Omce kt does, Press the SPACE bar and it will enable the thread. 
+Once the program starts, a little splashs reen will appear. After its done loading, a white window will appear. Once it does, Press the SPACE bar and it will enable the thread. 
 
 It is recommended that the user presses the keys: / ' Space 2 d s a
 In that order, to get started. 

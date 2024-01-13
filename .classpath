@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-21">
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-21">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all-natives-windows-amd64.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/Spout/core.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/Spout/library/spout.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/jogamp-all-platforms/jar/gluegen-rt.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/jogamp-all-platforms/jar/gluegen-rt-natives-windows-amd64.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/jogamp-all-platforms/jar/jogl-all.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Andres/Documents/Code Libs/jogamp-all-platforms/jar/jogl-all-natives-windows-amd64.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

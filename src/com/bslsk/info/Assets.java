@@ -13,9 +13,10 @@ import com.bslsk.paint.*;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.2.17a";
-	public static Constraint[] CONSTRAINTS;
-	
+	public static final String VERSION_ID = "v0.4.09a";
+    public static final Color[] COLOR = {Color.red,Color.green,Color.blue,Color.cyan,Color.magenta,Color.orange};
+    public static Constraint[] CONSTRAINTS;
+	public static Recorder[] recorders;
 	
 	public static int WIDTH, HEIGHT;
 	public static double RATIO;
@@ -54,25 +55,25 @@ public class Assets
 						new CenterMode()
 				};
 	}
-	public static void initRender()
+	public static PaintMode[] getCustomPaintModes()
 	{
-		render = new ArrayList<GContext>();
-	}
-	public static PaintMode[] getDefaultPaintModes(int w, int h, int r)
-	{
-		return new PaintMode[] 
+		return new PaintMode[]
 				{
 						new NormalMode(),
 						new ReflectMode(),
 						new ReflectDoubleMode(),
 						new QuadMode(),
 						new GlitchMode(),
-						//new LifeMode(w,h,r),
+						//new LifeMode(WIDTH,HEIGHT,250),
 						new MeltMode(),
 						new BurstMode(),
 						new DistortMode(),
 						new CenterMode()
 				};
+	}
+	public static void initRender()
+	{
+		render = new ArrayList<GContext>();
 	}
 	public static void setGlobalConstants(int w, int h, double r)
 	{
@@ -141,6 +142,13 @@ public class Assets
 			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,2}) ,
 			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
 			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
+		};
+		Assets.recorders = new Recorder[]{
+				new Recorder(0),
+				new Recorder(1),
+				new Recorder(2),
+				new Recorder(3),
+				new Recorder(4)
 		};
 	}
 	public static Constraint getConstraintBy(int type)

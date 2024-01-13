@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact name="MELTr:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MELTr_jar</output-path>
+    <root id="root">
+      <element id="archive" name="MELTr.jar">
+        <element id="module-output" name="MELTr" />
+        <element id="dir-copy" path="$PROJECT_DIR$" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/gluegen-rt-natives-windows-amd64.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/gluegen-rt.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/gluegen.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/joal-natives-windows-amd64.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/joal.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/jocl.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/jocl-natives-windows-amd64.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../Code Libs/jogamp-all-platforms/jar/jogl-all.jar" />
+    </root>
+  </artifact>
+</component>

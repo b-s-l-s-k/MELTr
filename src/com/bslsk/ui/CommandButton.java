@@ -12,9 +12,13 @@ public class CommandButton
     Action action;
     String text;
     Color color;
-    public CommandButton(Action a1)
+    boolean TOGGLEABLE;
+    boolean toggled;
+    public CommandButton(Action a1, boolean tgl)
     {
         action = a1;
+        TOGGLEABLE = tgl;
+        toggled = false;
     }
     public void setStyle(String t, Color c)
     {
@@ -35,12 +39,48 @@ public class CommandButton
     public void press()
     {
         action.act();
+        if(TOGGLEABLE)
+            toggled = !toggled;
     }
     public void draw(Graphics2D g)
     {
         g.setColor(color);
-        g.fillRect(x,y,width,height);
-        g.setColor(Color.black);
-        g.drawRect(x,y,width,height);
+        if(TOGGLEABLE && toggled)
+        {
+            g.fillOval(x, y, width, height);
+            g.setColor(Color.black);
+            g.drawOval(x, y, width, height);
+            if (color.equals(Color.black))
+            {
+                g.setColor(Color.white);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+            else
+            {
+                g.setColor(Color.black);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+        }
+        else
+        {
+            g.fillRect(x, y, width, height);
+            g.setColor(Color.black);
+            g.drawRect(x, y, width, height);
+            if (color.equals(Color.black))
+            {
+                g.setColor(Color.white);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+            else
+            {
+                g.setColor(Color.black);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+        }
+    }
+    public String toString()
+    {
+        return "Button: " + text + "|||  [" + x + ","+ y + "," + width + ","+ height + "]" + "\n" +
+                action.toString();
     }
 }

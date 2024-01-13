@@ -61,7 +61,7 @@ public class SplashScreen extends JFrame implements Runnable
 			}
 			catch(Exception e) {}
 		}
-		new GFrame(true);
+		new GFrame(false,null);
 		this.setVisible(false);
 	}
 	@Override

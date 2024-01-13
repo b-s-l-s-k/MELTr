@@ -14,7 +14,7 @@ import com.bslsk.gen.WordContext;
 public class Action 
 {
 	//-----------------------TYPE---------------------------
-	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6, MOVE_IMG = 7, COLOR_CHG = 8;
+	public static final int ADD_CONTEXT = 0, REMOVE_CONTEXT = 1, SET_SETTING = 2, SET_DRAW = 3, SET_EFFECT = 4, SET_SHIFTER = 5, KEY_DOWN = 6, MOVE_IMG = 7, COLOR_CHG = 8, RECORD = 9;
 	
 	//----------------------S-TYPE--------------------------
 	//----------------------CONTEXT-------------------------
@@ -253,9 +253,14 @@ public class Action
 		}
 		else if( type == COLOR_CHG)
 		{
-			//gf.brush.setColor(sType);
-			//Assets.CTRL = true;
-			//System.out.println(Assets.CTRL + " = CTRL" );
+			Assets.current = Assets.COLOR[sType];
+		}
+		else if( type == RECORD)
+		{
+			if(sType == 0)
+				Assets.recorders[dType].toggleRec();
+			if(sType == 1)
+				Assets.recorders[dType].toggleEvent();
 		}
 		
 	}

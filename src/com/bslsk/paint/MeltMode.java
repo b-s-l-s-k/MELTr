@@ -25,7 +25,7 @@ public class MeltMode extends PaintMode {
 		quads[2] = g.iB.getSubimage(0, g.height/2,g.width/2, g.height/2);
 		quads[3] = g.iB.getSubimage(g.width/2, g.height/2,g.width/2, g.height/2);
 		for(int x = 0; x < quads.length; x ++)
-			paintRecursive(g,quads[x], 4);
+			paintRecursive(g,quads[x], 3);
 		//g.buffer.drawImage(g.iB, g.width, 0, g.width/2, g.height, 0, 0, g.width/2, g.height, null);
 		g.buffer.drawImage(quads[0],0, 0,g.width/2, g.height/2,null);
 		g.buffer.drawImage(quads[1],g.width/2, 0,g.width/2, g.height/2,null);

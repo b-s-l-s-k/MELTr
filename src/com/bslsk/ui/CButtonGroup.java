@@ -33,12 +33,12 @@ public class CButtonGroup
         img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
         buffer = (Graphics2D)img.getGraphics();
 
-        padding = width/(layout[0]*2);
+        padding = width/((layout[0]*2)+1);
     }
 
     public void addButton(Action a, String text, Color color)
     {
-        CommandButton ncb = new CommandButton(a);
+        CommandButton ncb = new CommandButton(a,false);
             int padding = width/(layout[0]*2);
             int bW = (width/2)-(padding*2);
             int bH = bW;
@@ -56,7 +56,7 @@ public class CButtonGroup
     }
     public void addButton2(Action a, String text, Color color)
     {
-        CommandButton ncb = new CommandButton(a);
+        CommandButton ncb = new CommandButton(a,false);
 
         buttons.add(ncb);
         int total = buttons.size();
@@ -66,7 +66,9 @@ public class CButtonGroup
 
         int px = (column * padding)*2;
         int py = (row * padding)*2;
+        py+= padding;
         buttons.getLast().setBounds(px,py,padding,padding);
+        buttons.getLast().setStyle(text,color);
     }
     //Precondition: contains(x,y) returned true
     public void press(int mx, int my)

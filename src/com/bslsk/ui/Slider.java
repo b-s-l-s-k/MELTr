@@ -9,6 +9,7 @@ public class Slider
 {
 	public int width,height;
     public int x,y;
+    int fillY, fillH;
     public double min, max;
     public double step;
     public double value;
@@ -20,6 +21,10 @@ public class Slider
 
     */
     private double range;
+    public Slider()
+    {
+
+    }
     public Slider(int modeI, double minI, double maxI, double valueI )
     {
         mode= modeI;
@@ -40,6 +45,18 @@ public class Slider
         range = Math.abs(min) + Math.abs(max);
         step = stp;
     }
+    public void setValues(int modeI, double minI, double maxI, double valueI ,double stp)
+    {
+        mode= modeI;
+        min = minI;
+        max = maxI;
+        value = valueI;
+
+        range = Math.abs(min) + Math.abs(max);
+        step = stp;
+        fillY = 0;
+        fillH = 0;
+    }
     public void setBounds(int x2, int y2, int w, int h)
     {
         x = x2;
@@ -51,13 +68,7 @@ public class Slider
 
     public Rectangle getFillBounds()
     {
-        double calcValue = (value*(double)height)/range;
-        int barX = x;
-        //int barY = y+height-(int)calcValue;
-        int barY = (int)calcValue;
-        int barWidth = width;
-        int barHeight = height - (int)calcValue;
-        return new Rectangle(barX,barY,barWidth,barHeight);
+        return new Rectangle(x,fillY,width,fillH);
     }
     public void draw(Graphics2D b)
     {
@@ -82,17 +93,34 @@ public class Slider
     }
     public void updateValue(int mx, int my, int t)
     {
-        int ay = my-y;
-        if(ay < 0)
-            value = max;
-        else if(ay > height)
+        int rY = my - y;
+
+        if(my < y)
+        {
             value = min;
+            fillY = y;
+            fillH = height;
+        }
+        else if(my> y + height)
+        {
+            value = max;
+            fillY = y+height;
+            fillH = 1;
+        }
         else
         {
-            value = ((range*ay)/height);
+            double nV = (((double)rY)*range)/(double)height;
+            nV += min;
+            value = nV;
+            fillY = my;
+            fillH = (y+height)-my;
         }
+
+        //value = 0;
         System.out.println(TYPES[t] + "   " + (value-(range/2)));
         Assets.CONSTRAINTS[t].param = value-(range/2);
+
+
     }
 
     public String toString()

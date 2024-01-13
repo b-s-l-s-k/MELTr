@@ -1,5 +1,4 @@
 package com.bslsk.bin;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 //import java.net.URL;
 //import java.awt.image.WritableRaster;
+import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,14 +25,21 @@ import com.bslsk.gen.FilterEffect;
 import com.bslsk.gen.GContext;
 //import com.bslsk.gen.GlitchEffect;
 //import com.bslsk.gen.ImageEffect;
-import com.bslsk.gen.LifeThread;
 import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
 import com.bslsk.info.KeyMapper;
 import com.bslsk.info.Preferences;
+import com.bslsk.info.Recorder;
+import com.bslsk.spout.MApplet;
+import processing.core.PConstants;
+import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
+import spout.Spout;
 import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
@@ -80,10 +87,15 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	//boolean imgMode;
 	public PaintBrush brush;
-	public GFrame(boolean show)
+	public boolean spoutActive;
+	//Spout spout;
+	MApplet spout;
+	boolean once;
+	public GFrame(boolean spoutActive, MApplet sp)
 	{
 		super("MELTR");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		spout = sp;
 		//width = gd.getDisplayMode().getWidth();
 		//height = gd.getDisplayMode().getHeight();
 		width = 1920/2;
@@ -100,7 +112,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		//setUndecorated(true);
 		setSize(width,height);
-		setVisible(show);
+		setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//side = new SideFrame();
@@ -145,7 +157,31 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		System.out.println();
 		//lT = new LifeThread(width/10,height/10,250);
 		//lThread =new Thread(lT);
-		t1 = new Thread(this);
+		this.spoutActive = spoutActive;
+		if(this.spoutActive)
+		{
+
+			//xxx = sendIn;
+			//xxx.start();
+
+			//xxx.init();
+			//xxx.setup();
+
+			//PImage img2 = new PImage(iB.getWidth(), iB.getHeight(), PConstants.ARGB);
+			//iB.getRGB(0, 0, img2.width, img2.height, img2.pixels, 0, img2.width);
+			//img2.updatePixels();
+			//xxx.g.set
+
+
+			//boolean was = xxx.spout.createSender("MELTr", Assets.WIDTH, Assets.HEIGHT);
+			//if (was) System.out.println("Sender created");
+
+
+			//spout.re
+			//pgr = xxx.getGraphics();
+			//spout.sendTexture(pgr);
+		}
+        t1 = new Thread(this);
 		t1.start();
 		repaint();
 		//lThread.start();
@@ -174,7 +210,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
                     else if(colorMode == 2)//progressive
                     {
                         int n = r1.nextInt(3);
-                        int n2 = r1.nextInt(3)-1;
+                        int n2 = r1.nextInt(7)-3;
                         if(n == 0 && (Assets.current.getRed() + n2 < 255 && Assets.current.getRed() + n2 > 0))
                                 Assets.current = new Color(Assets.current.getRed() + n2, Assets.current.getGreen(), Assets.current.getBlue());
                         else if(n == 1 && (Assets.current.getGreen() + n2 < 255 && Assets.current.getGreen() + n2 > 0))
@@ -183,31 +219,47 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
                                 Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen(), Assets.current.getBlue()+ n2);
 
                     }
-}
-catch(Exception e)
-{
-                System.out.println("NEW COLOR GENERATED");
-}
+				}
+				catch(Exception e)
+				{
+								System.out.println("NEW COLOR GENERATED");
+				}
             }
 			//finally {Assets.current = new Color(r1.nextInt(256),r1.nextInt(256),r1.nextInt(256));}
 			if(hold)
 			{
-				
-				for(GContext c : Assets.render)
+
+				for (GContext c : Assets.render)
 					c.step();
-				//Shifters
-				for(Shifter s : Assets.shifts)
+				for(Recorder rc : Assets.recorders)
 				{
-					if(s.type == Shifter.TYPE_ANGLE && s.isActive())
-						Assets.CONSTRAINTS[0].param =  s.shift((Assets.CONSTRAINTS[0].param) );
-					else if(s.type == Shifter.TYPE_SCALE && s.isActive())
-						Assets.CONSTRAINTS[1].param = s.shift(Assets.CONSTRAINTS[1].param);
-					else if(s.type == Shifter.TYPE_TRAN_X && s.isActive())
-						Assets.CONSTRAINTS[2].param =  s.shift((Assets.CONSTRAINTS[2].param) );
-					else if(s.type == Shifter.TYPE_TRAN_Y && s.isActive())
-						Assets.CONSTRAINTS[3].param = s.shift(Assets.CONSTRAINTS[3].param);
+					if(rc.isStarted())
+						rc.updateRec();
+					if(rc.isRunning())
+						rc.act();
 				}
 				repaint();
+				//int[] nn = iB.getRaster().getPixels(0,0,iB.getWidth(), iB.getHeight(), new int[1]);
+				//int[] nn = ((DataBufferInt)iB.getRaster().getDataBuffer()).getData();
+				if (spoutActive)
+				{
+					try
+					{
+
+						//int[] pix = new int[Assets.WIDTH*Assets.HEIGHT*4];
+						//iB.getRGB(0, 0, iB.getWidth(), iB.getHeight(), pix, 0, iB.getWidth());
+						//spout.img.loadPixels();
+						//spout.img.pixels = pix;
+						//spout.img.updatePixels();
+						spout.updateImage(iB);
+
+					} catch (Exception e)
+					{
+						//System.err.println("Can't create image from buffer");
+						e.printStackTrace();
+					}
+				}
+
 			}
 			try {Thread.sleep(1);}
 			catch(InterruptedException ie) {}
@@ -236,7 +288,7 @@ catch(Exception e)
 		
 		filter.doEffect(buffer, iB);
 		g.drawImage(iB, 0, 0, this.getWidth(), this.getHeight(), null);
-					
+
 	}
 	
 	@Override
@@ -342,7 +394,7 @@ catch(Exception e)
 			else if(Assets.SHIFT)
 			{
 				System.out.println("Opening Command Frame");
-				new CommandFrame(this);
+				new CommandFrame(this,true);
 			}
 			System.out.println(
 					"["+(Assets.triggers[0] ? "X":" ")+"]"+
@@ -405,8 +457,17 @@ catch(Exception e)
 	public void mouseExited(MouseEvent e) {}
 	
 	public static void main(String[] args) 
-	{ 
-		new SplashScreen(); 
+	{
+		MApplet applet = new MApplet();
+		PApplet.runSketch(new String[]{""},   applet);
+		GFrame g = new GFrame(true,applet);
+
+
+
+
+
+
+		//new SplashScreen();
 	//new GFrame();
 	}
 }

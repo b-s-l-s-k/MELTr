@@ -15,7 +15,7 @@ public class Screen
     {
         width = w;
         height = h;
-        buttons = new CButtonGroup(0,0,width,height, new int[] {3,3});
+        buttons = new CButtonGroup(0,0,width/2,height, new int[] {2,3});
         /*
         65 0 0 -1
         83 0 1 -1

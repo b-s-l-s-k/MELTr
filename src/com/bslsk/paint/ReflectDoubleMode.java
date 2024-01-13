@@ -20,10 +20,10 @@ public class ReflectDoubleMode extends PaintMode {
 				//System.out.println(y + "     " + g.height);
 				BufferedImage n = g.iB.getSubimage(x, y,g.width/(int)(g.ratio*8), (int)(g.ratio*8));
 				Graphics2D nG = (Graphics2D)n.getGraphics();
-				//if(triggers[0])
-					//nG.scale(scale, scale);
-				//if(triggers[1])
-					//nG.translate(tranX, tranY);
+				if(Assets.triggers[0])
+					nG.scale(Assets.CONSTRAINTS[1].param, Assets.CONSTRAINTS[1].param);
+				if(Assets.triggers[1])
+					nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
 				if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 				

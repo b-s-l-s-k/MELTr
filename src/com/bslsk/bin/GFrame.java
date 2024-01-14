@@ -1,11 +1,5 @@
 package com.bslsk.bin;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -135,6 +129,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		buffer.setColor(Color.black);
 		buffer.setBackground(Color.white);
 		buffer.clearRect(0, 0, width, height);
+		buffer.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+				RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		current = Color.white;
 		//render = new ArrayList<GContext>();
 		Assets.initRender();

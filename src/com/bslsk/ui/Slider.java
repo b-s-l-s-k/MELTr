@@ -15,6 +15,8 @@ public class Slider
     public double value;
     String label;
     public int mode;
+
+    int type;
     /*
         0 = up/down regular
         1 = up/down center
@@ -44,6 +46,10 @@ public class Slider
 
         range = Math.abs(min) + Math.abs(max);
         step = stp;
+    }
+    public void setType(int t)
+    {
+        type = t;
     }
     public void setValues(int modeI, double minI, double maxI, double valueI ,double stp)
     {
@@ -75,8 +81,10 @@ public class Slider
         b.setColor(Color.black);
         b.drawRect(x,y,width,height);
         Rectangle bounds = getFillBounds();
+        setColor(b);
+
         b.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
-        if(step > 0)
+        if(step > 0 && type < 4)
         {
             double nStep = range/step;
             int mark = height/(int)nStep;
@@ -87,6 +95,23 @@ public class Slider
         }
         //System.out.println(sliders[x].toString());
     }
+
+    private void setColor(Graphics2D b)
+    {
+        if(type ==4)
+        {
+            b.setColor(new Color(Assets.current.getRed(),0,0));
+        }
+        else if(type ==5)
+        {
+            b.setColor(new Color(0,Assets.current.getGreen(),0));
+        }
+        else if(type ==6)
+        {
+            b.setColor(new Color(0,0,Assets.current.getBlue()));
+        }
+    }
+
     public Rectangle getBounds()
     {
         return new Rectangle(x,y,width,height);
@@ -100,6 +125,7 @@ public class Slider
             value = min;
             fillY = y;
             fillH = height;
+
         }
         else if(my> y + height)
         {
@@ -110,15 +136,31 @@ public class Slider
         else
         {
             double nV = (((double)rY)*range)/(double)height;
-            nV += min;
+            if(type < 4)
+                nV += min;
             value = nV;
             fillY = my;
             fillH = (y+height)-my;
         }
 
         //value = 0;
-        System.out.println(TYPES[t] + "   " + (value-(range/2)));
-        Assets.CONSTRAINTS[t].param = value-(range/2);
+        //System.out.println(TYPES[t] + "   " + (value-(range/2)));
+
+        if(type < 4)
+        {
+            double val = value-(range/2);
+            Assets.CONSTRAINTS[t].param = (val) - (val % step);
+        }
+        else if (type <=6)
+        {
+            System.out.println(value+"");
+            if (type ==4)
+                Assets.current = new Color((int)value, Assets.current.getGreen(),Assets.current.getBlue());
+            if (type ==5)
+                Assets.current = new Color( Assets.current.getRed(),(int)value,Assets.current.getBlue());
+            if (type ==6)
+                Assets.current = new Color(Assets.current.getRed(), Assets.current.getGreen(),(int)value);
+        }
 
 
     }

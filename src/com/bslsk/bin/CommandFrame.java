@@ -29,12 +29,12 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 	BufferedImage buffer;
 	Graphics2D b;
 
-	Slider[] sliders;
+	ArrayList<Slider> sliders;
 	CButtonGroup buttons;
 	Screen screen;
 	CommandButton switcher;
 	boolean swapped; // whether screen is visible or not
-	boolean[] selected = {false,false,false,false};
+	boolean[] selected ;
 	ArrayList<CommandButton> btns;
 
 	public CommandFrame(GFrame par, boolean custom)
@@ -63,7 +63,8 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 
 	private void loadCustom()
 	{
-		sliders = new Slider[] {new Slider(),new Slider(),new Slider(),new Slider()};
+		//sliders = new Slider[] {new Slider(),new Slider(),new Slider(),new Slider()};
+		sliders = new ArrayList<Slider>();
 		btns = new ArrayList<CommandButton>();
 		FileInputStream fis;
 		try {
@@ -78,11 +79,16 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 					addButton(s1);
 				else if(str.equals("slider"))
 					addSlider(s1);
+				else if(str.equals("skip"))
+					s1.nextLine();
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		selected = new boolean[sliders.size()];
+		System.err.println(sliders.size() + "   " + selected.length);
 	}
 	private void addButton(Scanner s1)
 	{
@@ -110,9 +116,18 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 			i = 2;
 		else if(type.equals("trany"))
 			i = 3;
+		else if(type.equals("color.r"))
+			i = 4;
+		else if(type.equals("color.g"))
+			i = 5;
+		else if(type.equals("color.b"))
+			i = 6;
+		Slider s = new Slider();
 
-		sliders[i].setBounds(s1.nextInt(),s1.nextInt(),s1.nextInt(),s1.nextInt());
-		sliders[i].setValues(s1.nextInt(),s1.nextDouble(),s1.nextDouble(),s1.nextDouble(),s1.nextDouble());
+		s.setBounds(s1.nextInt(),s1.nextInt(),s1.nextInt(),s1.nextInt());
+		s.setValues(s1.nextInt(),s1.nextDouble(),s1.nextDouble(),s1.nextDouble(),s1.nextDouble());
+		s.setType(i);
+		sliders.add(s);
 	}
 	public void loadDefaults()
 	{
@@ -152,6 +167,7 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 				"Melt",
 				Color.cyan
 		);
+		/*
 		sliders = new Slider[]
 				{
 						new Slider(1,-45,45,0,1), // angle
@@ -160,15 +176,17 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 						new Slider(1,-3,3,0,1),//tran y
 
 				};
+		*/
 		int nW = width - rWidth;
 		int sliderW = nW/5;
 		int pd = sliderW/5;
 		System.out.println(nW + "     " + sliderW + "     " + pd);
+		/*
 		sliders[0].setBounds(pd,30,sliderW,getHeight()-60);
 		sliders[1].setBounds((pd*2)+(sliderW),30,sliderW,getHeight()-60);
 		sliders[2].setBounds(((pd*3)+(sliderW)*2),30,sliderW,getHeight()-60);
 		sliders[3].setBounds(((pd*4)+(sliderW)*3),30,sliderW,getHeight()-60);
-
+		*/
 		screen = new Screen(width,height);
 		switcher = new CommandButton(null,false);
 		switcher.setStyle("Switch", Color.YELLOW);
@@ -214,9 +232,9 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 				cb.press();
 		}
 
-		for (int x = 0; x < sliders.length; x++)
+		for (int x = 0; x < sliders.size(); x++)
 		{
-			if (sliders[x].getBounds().contains(e.getX(), e.getY()))
+			if (sliders.get(x).getBounds().contains(e.getX(), e.getY()))
 				selected[x] = true;
 
 		}
@@ -226,48 +244,20 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 		repaint();
 	}
 	//@Override
-	public void mousePressed2(MouseEvent e)
-	{
-		if(switcher.contains(e.getX(),e.getY()))
-		{
-			swapped = !swapped;
-		}
-		if(!swapped)
-		{
-			if (buttons.contains(e.getX(), e.getY()))
-			{
-				buttons.press(e.getX(), e.getY());
-				return;
-			}
-			else
-			{
-				for (int x = 0; x < sliders.length; x++)
-				{
-					if (sliders[x].getBounds().contains(e.getX(), e.getY()))
-						selected[x] = true;
-
-				}
-			}
-		}
-		else
-		{
-			screen.press(e.getX(),e.getY());
-		}
-		//System.out.println("MouseDown");
-		repaint();
-	}
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		for(int x = 0; x < sliders.length;x ++)
+		for(int x = 0; x < sliders.size();x ++)
 			if(selected[x])
-				sliders[x].updateValue(e.getX(),e.getY(),x);
+				sliders.get(x).updateValue(e.getX(),e.getY(),x);
 		repaint();
 	}
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		selected = new boolean[] {false,false,false,false};
+		//selected = new boolean[] {false,false,false,false};
+		int sl = selected.length;
+		selected = new boolean[sl];
 	}
 
 

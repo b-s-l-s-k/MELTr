@@ -1,7 +1,7 @@
 package com.bslsk.info;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import com.bslsk.gen.*;
 import com.bslsk.paint.*;
+
+import javax.imageio.ImageIO;
 
 public class Assets 
 {
@@ -39,14 +41,15 @@ public class Assets
 	public static Painter painter;
 
 	public static boolean[] triggers;
+	public static BufferedImage[] loadedIMG;
 	public static PaintMode[] getDefaultPaintModes()
 	{
 		return new PaintMode[] 
 				{
 						new NormalMode(),
 						new ReflectMode(),
-						new ReflectDoubleMode(),
-						new QuadMode(),
+						new InvertMode(),
+						new ImageMode(),
 						new GlitchMode(),
 						//new LifeMode(WIDTH,HEIGHT,250),
 						new MeltMode(),
@@ -98,6 +101,7 @@ public class Assets
 		drawFont = new Font(Font.SANS_SERIF, Font.BOLD,100);
 
 		triggers = new boolean[] {false,false,false,false};
+		loadImages();
 		System.out.println(w + "     " + h +"     " + r );
 	}
 	
@@ -144,11 +148,14 @@ public class Assets
 			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
 		};
 		Assets.recorders = new Recorder[]{
-				new Recorder(0),
-				new Recorder(1),
-				new Recorder(2),
-				new Recorder(3),
-				new Recorder(4)
+				new Recorder(0),//angle
+				new Recorder(1),//scale
+				new Recorder(2),//tranx
+				new Recorder(3),//trany
+				new Recorder(4),//color rec
+				new Recorder(5), //red
+				new Recorder(6), //green
+				new Recorder(7)//blue
 		};
 	}
 	public static Constraint getConstraintBy(int type)
@@ -172,5 +179,26 @@ public class Assets
 	public static void toggleTriggers()
 	{
 		triggers = new boolean[] {!triggers[0],!triggers[1],!triggers[2],!triggers[3]};
+	}
+
+	private static void loadImages()
+	{
+		File folder = new File("res/img/");
+		File[] list = folder.listFiles();
+		loadedIMG = new BufferedImage[list.length];
+		for(int x = 0; x < list.length;x++)
+		{
+			FileInputStream fis;
+			try
+			{
+				System.out.println(list[x].getAbsolutePath());
+				//loadedIMG[x] = (BufferedImage)(Image)Toolkit.getDefaultToolkit().createImage(list[x].getAbsolutePath());
+				//new BufferedImage()
+				loadedIMG[x] = ImageIO.read(list[x]);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -6,34 +6,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-//import java.net.URL;
-//import java.awt.image.WritableRaster;
-import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import com.bslsk.gen.Effect;
 import com.bslsk.gen.FilterEffect;
 import com.bslsk.gen.GContext;
-//import com.bslsk.gen.GlitchEffect;
-//import com.bslsk.gen.ImageEffect;
-import com.bslsk.gen.Shifter;
 import com.bslsk.info.Assets;
 import com.bslsk.info.KeyMapper;
 import com.bslsk.info.Preferences;
 import com.bslsk.info.Recorder;
 import com.bslsk.spout.MApplet;
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.opengl.PGraphicsOpenGL;
-import spout.Spout;
 import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
 import processing.core.PApplet;
-import processing.core.PImage;
 
 public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
@@ -49,8 +37,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public double angle = 0;
 	public double scale = 1;
 	boolean hold = false;
-	public byte mode = 1;
-	public SideFrame side;
+	//public byte mode = 1;
 	
 	public int width;
 	public int height;
@@ -61,30 +48,26 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	
 	FilterEffect filter;
-	
-	Color dmC; // DRAWING MODE COLOR
-		boolean[] colorchange = {false,false,false};
-		boolean sbtn; // shift key down
-	boolean drawingMode = false; 
-	boolean mDown = false;
-	BufferedImage drawI;
-	Graphics2D drawG;
+
+	boolean sbtn; // shift key down
+	//boolean drawingMode = false;
+	//boolean mDown = false;
+	//BufferedImage drawI;
+	//Graphics2D drawG;
 	
 	//public boolean[] triggers = {false,false,false};
 	
 	KeyMapper keyMap;
 	MidiMapper midiMap;
-	//public LifeThread lT;
-	//Thread lThread;
 	
-	public Painter painter; //----------------------Create Paintmodes - > Implement
+	//public Painter painter; //----------------------Create Paintmodes - > Implement
 	
 	//boolean imgMode;
 	public PaintBrush brush;
 	public boolean spoutActive;
 	//Spout spout;
 	MApplet spout;
-	boolean once;
+	//boolean once;
 	public GFrame(boolean spoutActive, MApplet sp)
 	{
 		super("MELTR");
@@ -139,14 +122,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		
-		/*
-		int[] links = new int[] 
-		{
-			0, 1, 1, -1, 3, -1, 5, 7,8,9
-		};
-		painter = new Painter(Assets.getDefaultPaintModes(width, height, 250), links);
-		*/
+
 		Assets.loadPainter("res/modes.txt");
 		keyMap = new KeyMapper("res/keys.txt");
 		midiMap = new MidiMapper("res/midi.txt");
@@ -154,33 +130,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		//lT = new LifeThread(width/10,height/10,250);
 		//lThread =new Thread(lT);
 		this.spoutActive = spoutActive;
-		if(this.spoutActive)
-		{
-
-			//xxx = sendIn;
-			//xxx.start();
-
-			//xxx.init();
-			//xxx.setup();
-
-			//PImage img2 = new PImage(iB.getWidth(), iB.getHeight(), PConstants.ARGB);
-			//iB.getRGB(0, 0, img2.width, img2.height, img2.pixels, 0, img2.width);
-			//img2.updatePixels();
-			//xxx.g.set
-
-
-			//boolean was = xxx.spout.createSender("MELTr", Assets.WIDTH, Assets.HEIGHT);
-			//if (was) System.out.println("Sender created");
-
-
-			//spout.re
-			//pgr = xxx.getGraphics();
-			//spout.sendTexture(pgr);
-		}
         t1 = new Thread(this);
 		t1.start();
 		repaint();
-		//lThread.start();
+
 		
 		
 	}
@@ -235,23 +188,14 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 						rc.act();
 				}
 				repaint();
-				//int[] nn = iB.getRaster().getPixels(0,0,iB.getWidth(), iB.getHeight(), new int[1]);
-				//int[] nn = ((DataBufferInt)iB.getRaster().getDataBuffer()).getData();
 				if (spoutActive)
 				{
 					try
 					{
-
-						//int[] pix = new int[Assets.WIDTH*Assets.HEIGHT*4];
-						//iB.getRGB(0, 0, iB.getWidth(), iB.getHeight(), pix, 0, iB.getWidth());
-						//spout.img.loadPixels();
-						//spout.img.pixels = pix;
-						//spout.img.updatePixels();
 						spout.updateImage(iB);
-
-					} catch (Exception e)
+					}
+					catch (Exception e)
 					{
-						//System.err.println("Can't create image from buffer");
 						e.printStackTrace();
 					}
 				}
@@ -271,7 +215,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 				e.doEffect(buffer, iB);
 		
 		buffer.drawImage(brush.getImage(), 0, 0, null);
-		//buffer.drawImage(Assets.BRUSH.getImage(), 0, 0, null);
+
 		buffer.setColor(Assets.current);
 		for(GContext c : Assets.render)
 			c.draw(buffer);
@@ -291,7 +235,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public void keyPressed(KeyEvent e) 
 	{
 		System.out.println(e.getKeyChar() + "    " + e.getKeyCode());
-		if(keyMap.keyPressed(e, this))
+		if(keyMap.keyPressed(e))
 			return;
 
 		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
@@ -320,13 +264,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			Assets.CONSTRAINTS[2].param = 0;
 
 			Assets.CONSTRAINTS[3].param = 0;
-			/*
-			Assets.CONSTRAINTS  = new Constraint[] {
-			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-45,45}) 	,
-			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,2}) ,
-			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
-			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
-			 */
+
 			return;
 		}
 		else if(e.getKeyChar() == 'x')
@@ -379,10 +317,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		}
 		//FAILSAFE
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-		{
-			//lT.dump();
 				System.exit(1);
-		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
 			if(Assets.CTRL)
@@ -390,15 +325,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			else if(Assets.SHIFT)
 			{
 				System.out.println("Opening Command Frame");
-				new CommandFrame(this,true);
+				new CommandFrame(this, true);
 			}
-			System.out.println(
-					"["+(Assets.triggers[0] ? "X":" ")+"]"+
-					"["+(Assets.triggers[1] ? "X":" ")+"]"+
-					"["+(Assets.triggers[2] ? "X":" ")+"]"+
-					
-					"TRANSITION X: " + Assets.CONSTRAINTS[2].param + "   Y: "+ Assets.CONSTRAINTS[3].param + "   Angle:" + Assets.CONSTRAINTS[0].param + "   Scale" + Assets.CONSTRAINTS[1].param
-					);
 		}
 	}
 
@@ -454,9 +382,26 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 	public static void main(String[] args) 
 	{
-		MApplet applet = new MApplet();
-		PApplet.runSketch(new String[]{""},   applet);
-		GFrame g = new GFrame(true,applet);
+		Object[] options = new Object[]{
+				"Yes",
+				"No"
+		};
+		int a = JOptionPane.showOptionDialog(null,"Enable Spout?","Starting Meltr",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[1]
+				);
+		if(a == 0)
+		{
+			MApplet applet = new MApplet();
+			PApplet.runSketch(new String[]{""}, applet);
+			GFrame g = new GFrame(true, applet);
+		}
+		else {
+			GFrame g = new GFrame(false, null);
+		}
 
 
 

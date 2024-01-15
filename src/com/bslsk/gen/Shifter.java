@@ -1,5 +1,8 @@
 package com.bslsk.gen;
 
+/**
+ * MARKED FOR DELETION
+ */
 public class Shifter 
 {
 

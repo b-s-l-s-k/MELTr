@@ -55,7 +55,7 @@ public class Action
 		dType = d;
 	}
 	/**
-	 * Perform a function according to the types, onto the running variables of the GFrame 
+	 * Perform a function according to the type, sType, and dType of the current Action, onto the running variables of the GFrame
 	 *
 	 */
 	public void act()
@@ -277,6 +277,11 @@ public class Action
 		return type + " " + sType + " " + dType + " ";
 	}
 	//----------OPTIONS----------------
+
+	/**
+	 *
+	 * @return int[] representing type, sType, and dType
+	 */
 	public int[] getType() {
 		return new int[] {type, sType, dType};
 	}

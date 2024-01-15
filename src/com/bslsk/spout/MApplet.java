@@ -14,6 +14,8 @@ public class MApplet extends PApplet
     public MApplet()
     {
         img = createImage(Assets.WIDTH,Assets.HEIGHT,PConstants.ARGB);
+        height = Assets.HEIGHT;
+        width = Assets.WIDTH;
     }
     @Override
     public void setup()

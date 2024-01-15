@@ -67,12 +67,12 @@ public class KeyMapper
 		}
 		
 	}
-	public boolean keyPressed(KeyEvent k, GFrame g)
+	public boolean keyPressed(KeyEvent k)
 	{
 		for(Key k2: keys)
 			if(k2.key == k.getKeyCode())
 			{
-				k2.pressed(g);
+				k2.pressed();
 				return true;
 			}
 		return false;

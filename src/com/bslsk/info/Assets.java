@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.4.09a";
+	public static final String VERSION_ID = "v0.4.21a";
     public static final Color[] COLOR = {Color.red,Color.green,Color.blue,Color.cyan,Color.magenta,Color.orange};
     public static Constraint[] CONSTRAINTS;
 	public static Recorder[] recorders;
@@ -42,6 +42,11 @@ public class Assets
 
 	public static boolean[] triggers;
 	public static BufferedImage[] loadedIMG;
+
+	/**
+	 * Returns a default selection of PaintModes
+	 * @return PaintMode[] A generic collection of PaintModes
+	 */
 	public static PaintMode[] getDefaultPaintModes()
 	{
 		return new PaintMode[] 
@@ -58,6 +63,11 @@ public class Assets
 						new CenterMode()
 				};
 	}
+
+	/**
+	 * [UNUSED/NONFUNCTIONING] Returns a custom selection of PaintModes
+	 * @return PaintMode[] A custom collection of PaintModes
+	 */
 	public static PaintMode[] getCustomPaintModes()
 	{
 		return new PaintMode[]
@@ -74,10 +84,21 @@ public class Assets
 						new CenterMode()
 				};
 	}
+
+	/**
+	 * Loads a new GContext renderer
+	 */
 	public static void initRender()
 	{
 		render = new ArrayList<GContext>();
 	}
+
+	/**
+	 * Sets the values for neccesary Assets that allows Meltr to function
+	 * @param w Width of the rendering window
+	 * @param h Height of the rendering window
+	 * @param r Width:Height ratio
+	 */
 	public static void setGlobalConstants(int w, int h, double r)
 	{
 		WIDTH = w;
@@ -104,8 +125,11 @@ public class Assets
 		loadImages();
 		System.out.println(w + "     " + h +"     " + r );
 	}
-	
-	
+
+	/**
+	 * Loads the values of Links and Modes to the Painter via config from the specified file
+	 * @param loc the location of the file to read Painter config from
+	 */
 	public static void loadPainter(String loc)
 	{
 		FileInputStream fis;
@@ -136,9 +160,11 @@ public class Assets
 			nMode[x] = modes.get(x);
 		painter =  new Painter(nMode, lll);
 	}
-	
-	
-	
+
+
+	/**
+	 * Initializes Constraints and Recorder
+	 */
 	public static void getDefaultContraints()
 	{
 		Assets.CONSTRAINTS  = new Constraint[] {
@@ -158,10 +184,21 @@ public class Assets
 				new Recorder(7)//blue
 		};
 	}
+
+	/**
+	 *
+	 * @param type int value representing the index of a specific constraint within Constraints[]
+	 * @return Constraint of list of Constraints specified by type
+	 */
 	public static Constraint getConstraintBy(int type)
 	{
 		return CONSTRAINTS[type];
 	}
+
+	/**
+	 * Gets a String representation of the Constraints
+	 * @return String of concatenated Constraint values (For Debug/Logging)
+	 */
 	public static String export()
 	{
 		String total = CONSTRAINTS.length+"\n";
@@ -172,15 +209,27 @@ public class Assets
 		return total;
 				
 	}
+
+	/**
+	 * [UNUSED/NONFUNCTIONAL]
+	 * @param x the index of the animation to toggle
+	 */
 	public static void toggleAnim(int x)
 	{
 		ANIM[x] = !ANIM[x];
 	}
+
+	/**
+	 * Flips the values of all boolean values within "triggers"
+	 */
 	public static void toggleTriggers()
 	{
 		triggers = new boolean[] {!triggers[0],!triggers[1],!triggers[2],!triggers[3]};
 	}
 
+	/**
+	 * [NOT FUNCTIONING PROPERLY]Load images from the /res/img/ folder
+	 */
 	private static void loadImages()
 	{
 		File folder = new File("res/img/");

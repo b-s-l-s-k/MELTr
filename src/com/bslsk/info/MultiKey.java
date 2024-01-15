@@ -13,7 +13,7 @@ public class MultiKey extends Key
 		actions = as;
 	}
 	@Override
-	public void pressed(GFrame g)
+	public void pressed()
 	{
 		for(Action a: actions)
 			a.act();

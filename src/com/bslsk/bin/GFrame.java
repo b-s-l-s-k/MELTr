@@ -320,9 +320,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 				System.exit(1);
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			if(Assets.CTRL)
-					new MapFrame();
-			else if(Assets.SHIFT)
+			if(Assets.SHIFT)
 			{
 				System.out.println("Opening Command Frame");
 				new CommandFrame(this, true);

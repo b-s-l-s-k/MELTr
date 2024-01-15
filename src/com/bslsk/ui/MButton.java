@@ -1,62 +1,86 @@
 package com.bslsk.ui;
 
-import java.awt.event.MouseEvent;
+import com.bslsk.info.Action;
 
-public class MButton extends Element
+import java.awt.*;
+
+public class MButton
 {
-	
-	public float x_weight;
-	public float y_weight;
-	public int padding;
-	
-	public int key;
-	public String word;
-	public MButton()
-	{
-		super(0,0,0,0);
-		padding = 0;
-		x_weight = 0;
-		y_weight = 0;
-		word = "";
-		key = 0;
-	}
-	public MButton(int x2, int y2, int scale,int p,String w, int k)
-	{
-		super(x2,y2,scale,scale);
-		padding = p;
-		x_weight = 1;
-		y_weight = 1;
-		word = w;
-		key = k;
-	}
-	public void setWeight(float xw, float yw)
-	{
-		x_weight = xw;
-		y_weight = yw;
-	}
-	public int getAdjustedSizeX()
-	{
-		return (int)(width * x_weight);
-	}
-	@Override
-	public boolean isInside(MouseEvent e) 
-	{
-		int ex = e.getX();
-		int ey = e.getY();
-		
-		if(ex < x + getAdjustedSizeX() && ex > x)
-			if(ey < y + height && ey > y)
-				return true;
-		return false;
-	}
-	public void start() 
-	{
-		
-		
-	}
-	@Override
-	public String toString()
-	{
-		return word + ": " + key + "   x:"+ x + "    y:" +y;
-	} 
+    int x,y;
+    int width,height;
+
+    Action action;
+    String text;
+    Color color;
+    boolean TOGGLEABLE;
+    boolean toggled;
+    public MButton(Action a1, boolean tgl)
+    {
+        action = a1;
+        TOGGLEABLE = tgl;
+        toggled = false;
+    }
+    public void setStyle(String t, Color c)
+    {
+        text = t;
+        color = c;
+    }
+    public void setBounds(int x1, int y1, int w,int h)
+    {
+        x = x1;
+        y = y1;
+        width = w;
+        height =h;
+    }
+    public boolean contains(int mx, int my)
+    {
+        return mx < (x + width) && mx > x && my < y + height && my > y;
+    }
+    public void press()
+    {
+        action.act();
+        if(TOGGLEABLE)
+            toggled = !toggled;
+    }
+    public void draw(Graphics2D g)
+    {
+        g.setColor(color);
+        if(TOGGLEABLE && toggled)
+        {
+            g.fillOval(x, y, width, height);
+            g.setColor(Color.black);
+            g.drawOval(x, y, width, height);
+            if (color.equals(Color.black))
+            {
+                g.setColor(Color.white);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+            else
+            {
+                g.setColor(Color.black);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+        }
+        else
+        {
+            g.fillRect(x, y, width, height);
+            g.setColor(Color.black);
+            g.drawRect(x, y, width, height);
+            if (color.equals(Color.black))
+            {
+                g.setColor(Color.white);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+            else
+            {
+                g.setColor(Color.black);
+                g.drawString(text, x + width/3, y + (height / 2));
+            }
+        }
+    }
+    public String toString()
+    {
+        return "Button: " + text + "|||  [" + x + ","+ y + "," + width + ","+ height + "]" + "\n" +
+                action.toString();
+    }
 }

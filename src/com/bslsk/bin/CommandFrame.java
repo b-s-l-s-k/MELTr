@@ -30,12 +30,12 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 	Graphics2D b;
 
 	ArrayList<Slider> sliders;
-	CButtonGroup buttons;
-	Screen screen;
-	CommandButton switcher;
+	//CButtonGroup buttons;
+	//Screen screen;
+	MButton switcher;
 	boolean swapped; // whether screen is visible or not
 	boolean[] selected ;
-	ArrayList<CommandButton> btns;
+	ArrayList<MButton> btns;
 
 	public CommandFrame(GFrame par, boolean custom)
 	{
@@ -65,7 +65,7 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 	{
 		//sliders = new Slider[] {new Slider(),new Slider(),new Slider(),new Slider()};
 		sliders = new ArrayList<Slider>();
-		btns = new ArrayList<CommandButton>();
+		btns = new ArrayList<MButton>();
 		FileInputStream fis;
 		try {
 			File f = new File("res/custom_frame.txt");
@@ -97,7 +97,7 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 		Color c = new Color(s1.nextInt(),s1.nextInt(),s1.nextInt());
 		String lbl = s1.next();
 		Action a = new Action(s1.nextInt(),s1.nextInt(),s1.nextInt());
-		CommandButton bt = new CommandButton(a,t);
+		MButton bt = new MButton(a,t);
 		bt.setBounds(b[0],b[1],b[2],b[3]);
 		bt.setStyle(lbl,c);
 		System.out.println(bt.toString());
@@ -131,67 +131,7 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 	}
 	public void loadDefaults()
 	{
-		int rightSide = (width/4)*3;
-		int rWidth = width-rightSide;
-		int rHeight = height;
-		buttons = new CButtonGroup(rightSide,0,rWidth,rHeight, new int[] {3,3});
-		//49-54 keys
-		//3 0 -1 through 3 5 -1
-		buttons.addButton(
-				new Action(3,0,-1),
-				"Nor",
-				Color.white
-		);
-		buttons.addButton(
-				new Action(3,1,-1),
-				"Ref",
-				Color.red
-		);
-		buttons.addButton(
-				new Action(3,2,-1),
-				"xRef",
-				Color.orange
-		);
-		buttons.addButton(
-				new Action(3,3,-1),
-				"Quad",
-				Color.blue
-		);
-		buttons.addButton(
-				new Action(3,4,-1),
-				"Gli",
-				Color.pink
-		);
-		buttons.addButton(
-				new Action(3,5,-1),
-				"Melt",
-				Color.cyan
-		);
-		/*
-		sliders = new Slider[]
-				{
-						new Slider(1,-45,45,0,1), // angle
-						new Slider(1,0.5,2.0,1,.05), // scale
-						new Slider(1,-3,3,0,1), //tran x
-						new Slider(1,-3,3,0,1),//tran y
 
-				};
-		*/
-		int nW = width - rWidth;
-		int sliderW = nW/5;
-		int pd = sliderW/5;
-		System.out.println(nW + "     " + sliderW + "     " + pd);
-		/*
-		sliders[0].setBounds(pd,30,sliderW,getHeight()-60);
-		sliders[1].setBounds((pd*2)+(sliderW),30,sliderW,getHeight()-60);
-		sliders[2].setBounds(((pd*3)+(sliderW)*2),30,sliderW,getHeight()-60);
-		sliders[3].setBounds(((pd*4)+(sliderW)*3),30,sliderW,getHeight()-60);
-		*/
-		screen = new Screen(width,height);
-		switcher = new CommandButton(null,false);
-		switcher.setStyle("Switch", Color.YELLOW);
-		switcher.setBounds(width-100,height-100,100,100);
-		swapped = false;
 	}
 	public void paint(Graphics g)
 	{
@@ -200,33 +140,15 @@ public class CommandFrame extends JFrame implements MouseListener, MouseMotionLi
 
 		for (Slider slider : sliders)
 			slider.draw(b);
-		for(CommandButton cb : btns)
+		for(MButton cb : btns)
 			cb.draw(b);
 
-		g.drawImage(buffer,0,0,getWidth(),getHeight(),null);
-	}
-	public void paint2(Graphics g)
-	{
-		b.setColor(Color.white);
-		b.fillRect(0,0,this.getWidth(),this.getHeight());
-		//b.setColor(Color.black);
-		if(!swapped)
-		{
-			for (Slider slider : sliders)
-				slider.draw(b);
-			buttons.draw(b);
-		}
-		else
-		{
-			screen.draw(b);
-		}
-		switcher.draw(b);
 		g.drawImage(buffer,0,0,getWidth(),getHeight(),null);
 	}
 	public void mousePressed(MouseEvent e)
 	{
 
-		for(CommandButton cb : btns)
+		for(MButton cb : btns)
 		{
 			if(cb.contains(e.getX(),e.getY()))
 				cb.press();

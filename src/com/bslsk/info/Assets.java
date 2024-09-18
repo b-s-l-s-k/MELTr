@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.4.21a";
+	public static final String VERSION_ID = "v0.4.32a";
     public static final Color[] COLOR = {Color.red,Color.green,Color.blue,Color.cyan,Color.magenta,Color.orange};
     public static Constraint[] CONSTRAINTS;
 	public static Recorder[] recorders;
@@ -52,7 +52,7 @@ public class Assets
 		return new PaintMode[] 
 				{
 						new NormalMode(),
-						new ReflectMode(),
+						new ReflectMode2(),
 						new InvertMode(),
 						new ImageMode(),
 						new GlitchMode(),
@@ -250,4 +250,13 @@ public class Assets
 			}
 		}
 	}
+	public static void adjustMidi(int type, int value)
+	{
+		int[] bounds = CONSTRAINTS[type].getBounds();
+		int range = bounds[1] - bounds[0];
+		double z = (((double)(range * value))/127.0);
+		z += bounds[0];
+		CONSTRAINTS[type].param = z;
+	}
+
 }

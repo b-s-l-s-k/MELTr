@@ -6,10 +6,10 @@ import java.util.List;
 import java.io.*;
     public class MidiHandler
 {
-
+    MidiDevice device;
     public MidiHandler()
     {
-        MidiDevice device;
+
         MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
         for (int i = 0; i < infos.length; i++) {
             try {
@@ -23,15 +23,17 @@ import java.io.*;
             //and for each transmitter
 
             for(int j = 0; j<transmitters.size();j++) {
+                try{
                 //create a new receiver
                 transmitters.get(j).setReceiver(
                         //using my own MidiInputReceiver
                         new MidiInputReceiver(device.getDeviceInfo().toString())
                 );
+                } catch (Exception e) {e.printStackTrace();}
             }
 
-            Transmitter trans = device.getTransmitter();
-            trans.setReceiver(new MidiInputReceiver(device.getDeviceInfo().toString()));
+            //Transmitter trans = device.getTransmitter();
+            //trans.setReceiver(new MidiInputReceiver(device.getDeviceInfo().toString()));
 
             //open each device
             device.open();
@@ -40,12 +42,18 @@ import java.io.*;
             System.out.println(device.getDeviceInfo()+" Was Opened");
 
 
-        } catch (MidiUnavailableException e) {}
+        } catch (MidiUnavailableException e) {e.printStackTrace();}
     }
 
 
 }
-//tried to write my own class. I thought the send method handles an MidiEvents sent to it
+
+    public void closeAll()
+    {
+        device.close();
+    }
+
+    //tried to write my own class. I thought the send method handles an MidiEvents sent to it
 public class MidiInputReceiver implements Receiver {
     public String name;
     public MidiInputReceiver(String name) {

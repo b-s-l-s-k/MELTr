@@ -1,10 +1,6 @@
 package com.bslsk.bin;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,13 +13,15 @@ import com.bslsk.info.Assets;
 import com.bslsk.info.KeyMapper;
 import com.bslsk.info.Preferences;
 import com.bslsk.info.Recorder;
+import com.bslsk.midi.KeyboardToSynth;
+import com.bslsk.midi.MidiHandler;
 import com.bslsk.spout.MApplet;
 import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
 import processing.core.PApplet;
 
-public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener, WindowListener
 {
 	public static final String VERSION_ID = "0";
 	//private static final long serialVersionUID = 1L;
@@ -68,6 +66,10 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	//Spout spout;
 	MApplet spout;
 	//boolean once;
+
+	//MIDI
+	KeyboardToSynth KB;
+	MidiHandler mH;
 	public GFrame(boolean spoutActive, MApplet sp)
 	{
 		super("MELTR");
@@ -132,6 +134,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		this.spoutActive = spoutActive;
         t1 = new Thread(this);
 		t1.start();
+
+		//MIDI
+		mH = new MidiHandler();
+		KB = new KeyboardToSynth();
+		KB.run();
 		repaint();
 
 		
@@ -171,7 +178,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 				}
 				catch(Exception e)
 				{
-								System.out.println("NEW COLOR GENERATED");
+								//System.out.println("NEW COLOR GENERATED");
 				}
             }
 			//finally {Assets.current = new Color(r1.nextInt(256),r1.nextInt(256),r1.nextInt(256));}
@@ -209,24 +216,25 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	{
 		
 		if(buffer == null){return;}
-		
+		/*
 		for(Effect e : Assets.effects)
 			if(e.isEnabled())
 				e.doEffect(buffer, iB);
-		
-		buffer.drawImage(brush.getImage(), 0, 0, null);
+		*/
+
 
 		buffer.setColor(Assets.current);
 		for(GContext c : Assets.render)
 			c.draw(buffer);
-		
-		
+
+		buffer.drawImage(brush.getImage(), 0, 0, null);
 		Assets.painter.update(this); // SEND TO PAINTER
 	
 		
 		
 		
 		filter.doEffect(buffer, iB);
+
 		g.drawImage(iB, 0, 0, this.getWidth(), this.getHeight(), null);
 
 	}
@@ -235,6 +243,19 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public void keyPressed(KeyEvent e) 
 	{
 		System.out.println(e.getKeyChar() + "    " + e.getKeyCode());
+		if(e.getKeyCode() == 81)
+		{
+			brush.setBrushColor(Color.red);
+		}
+		else if(e.getKeyCode() == 87)
+		{
+			brush.setBrushColor(Color.GREEN);
+		}
+		else if(e.getKeyCode() == 69)
+		{
+			brush.setBrushColor(Color.BLUE);
+		}
+
 		if(keyMap.keyPressed(e))
 			return;
 
@@ -408,5 +429,47 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 
 		//new SplashScreen();
 	//new GFrame();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		mH.closeAll();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+
 	}
 }

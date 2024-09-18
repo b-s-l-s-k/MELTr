@@ -93,4 +93,9 @@ public class PaintBrush
 		else return;
 
 	}
+	public void setBrushColor(Color c)
+	{
+		dmC = c;
+
+	}
 }

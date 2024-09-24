@@ -12,12 +12,12 @@ import com.bslsk.info.Action;
 
 public class MidiMapper 
 {
-	public ArrayList<MidiKey> keys;
+	public MidiAction[] keys;
 	public String file;
 	public MidiMapper(String f)
 	{
 		file = f;
-		keys = new ArrayList<MidiKey>();
+		keys = new MidiAction[128];
 		loadFile();
 	}
 	/**
@@ -40,12 +40,12 @@ public class MidiMapper
 					int x = s1.nextInt();
 					int x2 = s1.nextInt();
 					int x3 = s1.nextInt();
-					keys.add(new MidiKey(n     , new Action(x   , x2,    x3)));
-					System.out.println(keys.get(keys.size()-1).toString());
+					keys[n] = new MidiAction(x   , x2,    x3);
+					System.out.println("MIDI ACTION CREATED -> " + x + " " + x2 + " " + x3);
 				}
 				else
 				{
-					s1.nextInt();s1.nextInt();s1.nextInt();
+					s1.nextLine();
 				}
 				
 				
@@ -56,24 +56,9 @@ public class MidiMapper
 		}
 		
 	}
-	public boolean keyPressed(KeyEvent k, GFrame g)
+	public void eval(int cont, int value)
 	{
-		for(MidiKey k2: keys)
-			if(k2.key == k.getKeyCode())
-			{
-				k2.pressed(g);
-				return true;
-			}
-		return false;
-	}
-	public boolean keyReleased(KeyEvent k, GFrame g)
-	{
-		for(MidiKey k2: keys)
-			if(k2.key == k.getKeyCode())
-			{
-				k2.released(g);
-				return true;
-			}
-		return false;
+		if(keys[cont] != null)
+			keys[cont].act(value);
 	}
 }

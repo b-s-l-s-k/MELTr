@@ -56,7 +56,6 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	//public boolean[] triggers = {false,false,false};
 	
 	KeyMapper keyMap;
-	MidiMapper midiMap;
 	
 	//public Painter painter; //----------------------Create Paintmodes - > Implement
 	
@@ -138,7 +137,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 
 		Assets.loadPainter("res/modes.txt");
 		keyMap = new KeyMapper("res/keys.txt");
-		midiMap = new MidiMapper("res/midi.txt");
+		//midiMap = new MidiMapper("res/midi.txt");
 		System.out.println();
 		//lT = new LifeThread(width/10,height/10,250);
 		//lThread =new Thread(lT);

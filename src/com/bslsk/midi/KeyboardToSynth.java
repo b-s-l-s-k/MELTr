@@ -265,6 +265,32 @@ public class KeyboardToSynth {
                     System.out.print("; ");
                 }
                 System.out.printf( "Controller %d, Value %d\n", byteToInt(bytes[i]), byteToInt(bytes[i + 1]) );
+                Assets.sendMidi(byteToInt(bytes[i]), byteToInt(bytes[i + 1]));
+
+
+            }
+
+
+            System.out.println();
+        }
+
+        private void displayControllerChangeBACKUP(MidiMessage message) {
+            if (message.getLength() < 3 || message.getLength() % 2 == 0) {
+                System.out.println(" Bad MIDI message");
+                return;
+            }
+            /*
+            System.out.print(" = Controller Change, Channel "
+                    + midiChannelToInt(message) + "\n\t");
+            message.
+            */
+
+            byte[] bytes = message.getMessage();
+            for (int i = 1; i < message.getLength(); i += 2) {
+                if ( i > 1 ) {
+                    System.out.print("; ");
+                }
+                System.out.printf( "Controller %d, Value %d\n", byteToInt(bytes[i]), byteToInt(bytes[i + 1]) );
                 if(byteToInt(bytes[i]) == 1)
                 {
                     Assets.popColor();
@@ -300,7 +326,7 @@ public class KeyboardToSynth {
                     Assets.adjustMidiContext(byteToInt(bytes[i]), byteToInt(bytes[i + 1]));
                     //System.out.println("The");
                 }
-                else if(byteToInt(bytes[i]) >= 23 && byteToInt(bytes[i]) <= 31)
+                else if(byteToInt(bytes[i]) >= 23 && byteToInt(bytes[i]) <= 31)// Buttons below sliders
                 {
                     Assets.adjustContextEnabled(byteToInt(bytes[i]), byteToInt(bytes[i + 1]));
                     //System.out.println("The");
@@ -315,12 +341,12 @@ public class KeyboardToSynth {
                     ((LineContext)Assets.context[2]).pushColor();
                     //System.out.println("The");
                 }
-                else if(byteToInt(bytes[i]) == 49)
+                else if(byteToInt(bytes[i]) == 49) // refresh button
                 {
                     Assets.current = Color.BLACK;
                     //System.out.println("The");
                 }
-                else if(byteToInt(bytes[i]) == 60)
+                else if(byteToInt(bytes[i]) == 60) // horizontal slider
                 {
                     Assets.adjustSpeed(byteToInt(bytes[i + 1]));
                     //System.out.println("The");
@@ -332,7 +358,6 @@ public class KeyboardToSynth {
 
             System.out.println();
         }
-
         // Display status and data of a KeyPressure message.  Data may come
         // in pairs after the status byte.
         private void displayKeyPressure(MidiMessage message) {

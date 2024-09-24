@@ -12,7 +12,7 @@ public class LineContext extends GContext {
 	ArrayList<Point> points;
 	Random r1;
 	int jitter;
-	ColorStack colorStack;
+
 	int width, height;
 	public LineContext(int ps, int w, int h) {
 		super();
@@ -86,24 +86,12 @@ public class LineContext extends GContext {
 			//((LineContext)next).colorStack = colorStack;
 			System.out.println("LINE ADDITION FAILED");
 		}
-		else
+		else if(next != null)
 			next.addNext();
 	}
 
 
 
 
-	public void popColor()
-	{
-		colorStack.popColor();
-		if(next != null)
-			((LineContext)next).popColor();
-	}
 
-	public void pushColor()
-	{
-		colorStack.pushColor();
-		if(next != null)
-			((LineContext)next).pushColor();
-	}
 }

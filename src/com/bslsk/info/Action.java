@@ -39,7 +39,9 @@ public class Action
 	
 	public Action()
 	{
-		
+		type = -1;
+		sType = -1;
+		dType = -1;
 	}
 	//if d is -1 (SETTING_NA), it is not counted
 	/**

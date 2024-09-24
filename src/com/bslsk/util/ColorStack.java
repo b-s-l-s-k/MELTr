@@ -14,7 +14,7 @@ public class ColorStack
     }
     public Color popColor()
     {
-        if(!cStack.isEmpty())
+        if(cStack.size() > 1)
             return cStack.pop();
         else
             return Assets.current;

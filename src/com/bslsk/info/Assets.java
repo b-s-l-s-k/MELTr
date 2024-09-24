@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 import com.bslsk.gen.*;
+import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.*;
 import com.bslsk.util.ColorStack;
 
@@ -49,6 +50,8 @@ public class Assets
 	public static BufferedImage[] loadedIMG;
 
 	public static ColorStack cStack;
+
+	public static MidiMapper midiMap;
 	/**
 	 * Returns a default selection of PaintModes
 	 * @return PaintMode[] A generic collection of PaintModes
@@ -133,6 +136,7 @@ public class Assets
 		loadImages();
 		System.out.println(w + "     " + h +"     " + r );
 		cStack = new ColorStack();
+		midiMap = new MidiMapper("res/midi.txt");
 
 	}
 
@@ -178,8 +182,8 @@ public class Assets
 	public static void getDefaultContraints()
 	{
 		Assets.CONSTRAINTS  = new Constraint[] {
-			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-45,45}) 	,
-			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,2}) ,
+			new Constraint(Action.SETTING_ANGLE, 0,new int[] {-90,90}) 	,
+			new Constraint(Action.SETTING_SCALE, 1,new int[] {0,1}) ,
 			new Constraint(Action.SETTING_TRANX, -1, new int[] {-5,5}),
 			new Constraint(Action.SETTING_TRANY, -1, new int[] {-5,5})
 		};
@@ -259,6 +263,10 @@ public class Assets
 				e.printStackTrace();
 			}
 		}
+	}
+	public static void sendMidi(int cont, int value)
+	{
+		midiMap.eval(cont,value);
 	}
 	public static void adjustMidi(int type, int value)
 	{

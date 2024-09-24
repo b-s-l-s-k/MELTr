@@ -24,8 +24,9 @@ public class MeltMode extends PaintMode {
 		quads[1] = g.iB.getSubimage(g.width/2, 0,g.width/2, g.height/2);
 		quads[2] = g.iB.getSubimage(0, g.height/2,g.width/2, g.height/2);
 		quads[3] = g.iB.getSubimage(g.width/2, g.height/2,g.width/2, g.height/2);
+
 		for(int x = 0; x < quads.length; x ++)
-			paintRecursive(g,quads[x], 3);
+			paintRecursive(g,quads[x], 2);
 		//g.buffer.drawImage(g.iB, g.width, 0, g.width/2, g.height, 0, 0, g.width/2, g.height, null);
 		g.buffer.drawImage(quads[0],0, 0,g.width/2, g.height/2,null);
 		g.buffer.drawImage(quads[1],g.width/2, 0,g.width/2, g.height/2,null);
@@ -50,20 +51,20 @@ public class MeltMode extends PaintMode {
 			Graphics2D nG = (Graphics2D)quads2[x].getGraphics();
 			if(x % 2 == 0)
 			{
-				if(Assets.triggers[0])
+				//if(Assets.triggers[0])
 					nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
 				if(Assets.triggers[1])
 					nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
-				if(Assets.triggers[2])
+				//if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param));
 			}
 			else
 			{
-				if(Assets.triggers[0])
+				//if(Assets.triggers[0])
 					nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
 				if(Assets.triggers[1])
 					nG.translate(Assets.CONSTRAINTS[2].param * -1, Assets.CONSTRAINTS[3].param * -1);
-				if(Assets.triggers[2])
+				//if(Assets.triggers[2])
 					nG.rotate(Math.toRadians(Assets.CONSTRAINTS[0].param)*-1);
 			}
 			nG.drawImage(quads2[x], 0, 0, null);

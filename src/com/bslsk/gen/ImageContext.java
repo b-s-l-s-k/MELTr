@@ -46,6 +46,25 @@ public class ImageContext extends GContext {
 		}
 
 	}
+
+	@Override
+	public void modify(int amount)
+	{
+
+	}
+
+	@Override
+	public void addNext()
+	{
+
+	}
+
+	@Override
+	public boolean removeLast()
+	{
+		return false;
+	}
+
 	private void loadFile(String fileL)
 	{
 		FileInputStream fis;

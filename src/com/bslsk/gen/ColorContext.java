@@ -1,5 +1,7 @@
 package com.bslsk.gen;
 
+import com.bslsk.info.Assets;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
@@ -7,8 +9,9 @@ import java.util.Random;
 public class ColorContext extends GContext {
 	Random r1;
 	int amount;
-	Color cc;
+
 	int width, height;
+
 	public ColorContext(int amt, int w, int h) {
 		super();
 		r1 = new Random();
@@ -31,7 +34,7 @@ public class ColorContext extends GContext {
 				*/
 			int mx = r1.nextInt(width);
 			int my = r1.nextInt(height);
-			g.fillRect(mx, my, 100, 100);
+			g.fillRect(mx, my, Assets.WIDTH/10, Assets.WIDTH/10);
 		}
 
 	}
@@ -41,5 +44,19 @@ public class ColorContext extends GContext {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void modify(int amount)
+	{
+		this.amount = amount;
+	}
+
+	@Override
+	public void addNext()
+	{
+
+	}
+
+
 
 }

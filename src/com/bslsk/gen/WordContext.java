@@ -40,6 +40,25 @@ public class WordContext extends GContext {
 		y = (int)s.shift(y);
 
 	}
+
+	@Override
+	public void modify(int amount)
+	{
+
+	}
+
+	@Override
+	public void addNext()
+	{
+
+	}
+
+	@Override
+	public boolean removeLast()
+	{
+		return false;
+	}
+
 	private void loadFile(String fileL)
 	{
 		words = new ArrayList<String>();

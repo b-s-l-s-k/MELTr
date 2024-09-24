@@ -41,7 +41,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public int height;
 	public double ratio;
 	//final String[] presets = {"Regular","Double","2xDouble", "Quad","Glitch"}; 
-	int colorMode = 2;
+	int colorMode = 1;
 	//String[] cModes = {"Black","Random Color","ProgressiveColor"};
 	
 	
@@ -73,12 +73,23 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public GFrame(boolean spoutActive, MApplet sp)
 	{
 		super("MELTR");
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		//GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		spout = sp;
 		//width = gd.getDisplayMode().getWidth();
 		//height = gd.getDisplayMode().getHeight();
-		width = 1920/2;
-		height = 1080/2;
+		//width = 1920/2;
+		//height = 1080/2;
+		width = 1080;
+		height = 1080;
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if (gd.isFullScreenSupported()) {
+			setUndecorated(true);
+			gd.setFullScreenWindow(this);
+		} else {
+			System.err.println("Full screen not supported");
+			setSize(100, 100); // just something to show
+			setVisible(true);
+		}
 		Image img = Toolkit.getDefaultToolkit().createImage("res/logo.png");
 		this.setIconImage(img);
 		System.out.println(width + "         " + height);
@@ -139,6 +150,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		mH = new MidiHandler();
 		KB = new KeyboardToSynth();
 		KB.run();
+
+
 		repaint();
 
 		
@@ -175,6 +188,7 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
                                 Assets.current = new Color(Assets.current.getRed() , Assets.current.getGreen(), Assets.current.getBlue()+ n2);
 
                     }
+
 				}
 				catch(Exception e)
 				{
@@ -185,8 +199,9 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 			if(hold)
 			{
 
-				for (GContext c : Assets.render)
-					c.step();
+				for (int x = 0; x < Assets.context.length;x++)
+					if(Assets.context[x] != null && Assets.cEnabled[x])
+						Assets.context[x].step();
 				for(Recorder rc : Assets.recorders)
 				{
 					if(rc.isStarted())
@@ -208,13 +223,13 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 				}
 
 			}
-			try {Thread.sleep(1);}
+			try {Thread.sleep(Assets.SPEED);}
 			catch(InterruptedException ie) {}
 		}
 	}
-	public void paint(Graphics g)
+	public void paint(Graphics g2)
 	{
-		
+		Graphics2D g = (Graphics2D) g2;
 		if(buffer == null){return;}
 		/*
 		for(Effect e : Assets.effects)
@@ -224,17 +239,20 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 
 
 		buffer.setColor(Assets.current);
-		for(GContext c : Assets.render)
-			c.draw(buffer);
+		for (int x = 0; x < Assets.context.length;x++)
+			if(Assets.context[x] != null && Assets.cEnabled[x])
+				Assets.context[x].draw(buffer);
 
 		buffer.drawImage(brush.getImage(), 0, 0, null);
 		Assets.painter.update(this); // SEND TO PAINTER
 	
 		
 		
-		
-		filter.doEffect(buffer, iB);
-
+		if(filter.isEnabled())
+			filter.doEffect(buffer, iB);
+		//buffer.drawImage(Assets.loadedIMG[1], 0,0,100,100,null);
+		//g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f)); // oLD version
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Assets.DRAW_OPACITY));
 		g.drawImage(iB, 0, 0, this.getWidth(), this.getHeight(), null);
 
 	}
@@ -243,6 +261,11 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public void keyPressed(KeyEvent e) 
 	{
 		System.out.println(e.getKeyChar() + "    " + e.getKeyCode());
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+		{
+			Assets.SHIFT = true;
+			return;
+		}
 		if(e.getKeyCode() == 81)
 		{
 			brush.setBrushColor(Color.red);
@@ -258,11 +281,6 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 
 		if(keyMap.keyPressed(e))
 			return;
-
-		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
-		{
-			Assets.SHIFT = true;
-		}
 		else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && !render.isEmpty())
 		{	
 			render.removeLast();

@@ -89,7 +89,26 @@ public class LifeContext extends GContext {
         	generateGrid();
 
 	}
-	private boolean isSame(boolean[][] a, boolean[][] b) 
+
+	@Override
+	public void modify(int amount)
+	{
+
+	}
+
+	@Override
+	public void addNext()
+	{
+
+	}
+
+	@Override
+	public boolean removeLast()
+	{
+		return false;
+	}
+
+	private boolean isSame(boolean[][] a, boolean[][] b)
 	{
 		for(int x =0; x < a.length;x++)
 			for(int y =0; y < a[x].length;y++)

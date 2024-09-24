@@ -1,6 +1,7 @@
 package com.bslsk.midi;
 
 
+import com.bslsk.gen.LineContext;
 import com.bslsk.info.Assets;
 
 import javax.sound.midi.MidiMessage;
@@ -9,6 +10,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Transmitter;
+import java.awt.*;
 
 /**
  * Create a connection between a musical keyboard (transmitter) and an internal
@@ -263,26 +265,68 @@ public class KeyboardToSynth {
                     System.out.print("; ");
                 }
                 System.out.printf( "Controller %d, Value %d\n", byteToInt(bytes[i]), byteToInt(bytes[i + 1]) );
-                if(byteToInt(bytes[i]) == 3)
+                if(byteToInt(bytes[i]) == 1)
+                {
+                    Assets.popColor();
+                }
+                else if(byteToInt(bytes[i]) == 2)
+                {
+                    Assets.pushColor();
+                }
+                else if(byteToInt(bytes[i]) == 3)
                 {
                     Assets.adjustMidi(0, byteToInt(bytes[i + 1]));
-                    System.out.println("The");
+                    //System.out.println("The");
                 }
                 else if(byteToInt(bytes[i]) == 4)
                 {
                     Assets.adjustMidi(1, byteToInt(bytes[i + 1]));
-                    System.out.println("The2");
+                    //System.out.println("The2");
                 }
                 else if(byteToInt(bytes[i]) == 5)
                 {
                     Assets.adjustMidi(2, byteToInt(bytes[i + 1]));
-                    System.out.println("The2");
+                    //System.out.println("The3");
                 }
                 else if(byteToInt(bytes[i]) == 6)
                 {
                     Assets.adjustMidi(3, byteToInt(bytes[i + 1]));
-                    System.out.println("The2");
+                    //System.out.println("The4");
                 }
+
+                //KNOBS ABOVE SLIDERS
+                if(byteToInt(bytes[i]) >= 14 && byteToInt(bytes[i]) <= 22) // KNOBS 1-8
+                {
+                    Assets.adjustMidiContext(byteToInt(bytes[i]), byteToInt(bytes[i + 1]));
+                    //System.out.println("The");
+                }
+                else if(byteToInt(bytes[i]) >= 23 && byteToInt(bytes[i]) <= 31)
+                {
+                    Assets.adjustContextEnabled(byteToInt(bytes[i]), byteToInt(bytes[i + 1]));
+                    //System.out.println("The");
+                }
+                else if(byteToInt(bytes[i]) == 47)
+                {
+                    ((LineContext)Assets.context[2]).popColor();
+                    //System.out.println("The");
+                }
+                else if(byteToInt(bytes[i]) == 48)
+                {
+                    ((LineContext)Assets.context[2]).pushColor();
+                    //System.out.println("The");
+                }
+                else if(byteToInt(bytes[i]) == 49)
+                {
+                    Assets.current = Color.BLACK;
+                    //System.out.println("The");
+                }
+                else if(byteToInt(bytes[i]) == 60)
+                {
+                    Assets.adjustSpeed(byteToInt(bytes[i + 1]));
+                    //System.out.println("The");
+                }
+
+
             }
 
 

@@ -39,6 +39,7 @@ public class Preferences
 				x++;
 				file = new File(f0+x+f1);
 			}
+			System.out.println("Saves to: " + file.getAbsolutePath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.println("Could not create file: prefs");

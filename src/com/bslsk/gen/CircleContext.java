@@ -40,4 +40,18 @@ public class CircleContext extends GContext {
 
 	}
 
+	@Override
+	public void modify(int amount)
+	{
+
+	}
+
+	@Override
+	public void addNext()
+	{
+
+	}
+
+
+
 }

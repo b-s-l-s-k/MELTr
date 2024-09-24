@@ -1,5 +1,7 @@
 package com.bslsk.gen;
 
+import com.bslsk.info.Assets;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
@@ -20,20 +22,23 @@ public class TrailContext extends GContext {
 		ar = r;
 		aS = ss;
 		aE = ee;
-		ra = new Random();
+		//ra = new Random();
+		color = new Color(Assets.R.nextInt(255),Assets.R.nextInt(255),Assets.R.nextInt(255));
 	}
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		//g.setColor(color);
+		g.setColor(color);
 		g.fillArc(ax, ay, ar, ar, aS, aE);
+		if(next != null)
+			next.draw(g);
 		
 	}
 
 	@Override
 	public void step() 
 	{
-		int sC = ra.nextInt(10) - 5;
+		int sC = Assets.R.nextInt(10) - 5;
 		ax += sC;
 		ay += sC;
 		ar += sC;
@@ -41,15 +46,40 @@ public class TrailContext extends GContext {
 		aE += sC;
 		if(ax < 0 || ay < 0 || ar < 0 )
 			randomize();
-		
+		if(next != null)
+			next.step();
+
+		//color = new Color(Assets.R.nextInt(255),Assets.R.nextInt(255),Assets.R.nextInt(255));
 	}
+
+	@Override
+	public void modify(int amount)
+	{
+		ar = amount;
+	}
+
+	@Override
+	public void addNext()
+	{
+		System.out.println("Creating Next Trail");
+		if(next == null)
+		{
+			next = new TrailContext(width, height, ax, ay, ar, aS, aE);
+			randomize();
+		}
+		else
+			next.addNext();
+	}
+
+
+
 	public void randomize()
 	{
-		ax = ra.nextInt(width); 
-		ay = ra.nextInt(height); 
-		ar = ra.nextInt(75) + 75;
-		aS = ra.nextInt(360);
-		aE = ra.nextInt(360);
+		ax = Assets.R.nextInt(width); 
+		ay = Assets.R.nextInt(height); 
+		ar = Assets.R.nextInt(75) + 75;
+		aS = Assets.R.nextInt(360);
+		aE = Assets.R.nextInt(360);
 	}
 	public static TrailContext randomContext(int w, int h)
 	{

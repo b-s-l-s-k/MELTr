@@ -7,22 +7,25 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 import com.bslsk.gen.*;
 import com.bslsk.paint.*;
+import com.bslsk.util.ColorStack;
 
 import javax.imageio.ImageIO;
 
 public class Assets 
 {
-	public static final String VERSION_ID = "v0.4.32a";
+	public static final String VERSION_ID = "v0.6.15a";
     public static final Color[] COLOR = {Color.red,Color.green,Color.blue,Color.cyan,Color.magenta,Color.orange};
-    public static Constraint[] CONSTRAINTS;
+	public static float DRAW_OPACITY = 1.0F;
+	public static Constraint[] CONSTRAINTS;
 	public static Recorder[] recorders;
 	
 	public static int WIDTH, HEIGHT;
 	public static double RATIO;
-	
+	public static int SPEED;
 	public static boolean CTRL;
 	public static boolean SHIFT;
 	public static boolean[] ANIM;
@@ -33,9 +36,11 @@ public class Assets
 	
 	public static Font drawFont;
 	public static Color current;
-
+//-------------------------------------------------------------------------------------------------
 	public static ArrayList<GContext> render;
-
+	public static GContext[] context;
+	public static boolean[] cEnabled;
+//-------------------------------------------------------------------------------------------------
 	public static byte mode;
 
 	public static Painter painter;
@@ -43,6 +48,7 @@ public class Assets
 	public static boolean[] triggers;
 	public static BufferedImage[] loadedIMG;
 
+	public static ColorStack cStack;
 	/**
 	 * Returns a default selection of PaintModes
 	 * @return PaintMode[] A generic collection of PaintModes
@@ -52,9 +58,9 @@ public class Assets
 		return new PaintMode[] 
 				{
 						new NormalMode(),
-						new ReflectMode2(),
+						new ReflectMode(),
 						new InvertMode(),
-						new ImageMode(),
+						new QuadMode(),
 						new GlitchMode(),
 						//new LifeMode(WIDTH,HEIGHT,250),
 						new MeltMode(),
@@ -91,6 +97,8 @@ public class Assets
 	public static void initRender()
 	{
 		render = new ArrayList<GContext>();
+		context = new GContext[9];
+		initContexts();
 	}
 
 	/**
@@ -124,6 +132,8 @@ public class Assets
 		triggers = new boolean[] {false,false,false,false};
 		loadImages();
 		System.out.println(w + "     " + h +"     " + r );
+		cStack = new ColorStack();
+
 	}
 
 	/**
@@ -258,5 +268,71 @@ public class Assets
 		z += bounds[0];
 		CONSTRAINTS[type].param = z;
 	}
+
+	public static void adjustMidiContext(int type, int value)
+	{
+		if(type == 14)
+			context[0].modify(value);
+		else if(type == 15)
+			context[1].modify(value);
+		else if(type == 16)
+			context[2].modify(value);
+		else if(type == 22)
+			DRAW_OPACITY = calcOpacity(value);
+	}
+
+	private static float calcOpacity(int value)
+	{
+		//x of 127 == z of 100
+		return (value * 100.0f) / 12700.0f ;
+	}
+
+	public static void initContexts()
+	{
+		cEnabled = new boolean[9];
+		context[0] = new ColorContext(3,Assets.WIDTH,Assets.HEIGHT);
+		context[1] = new ClearContext(Assets.WIDTH,Assets.HEIGHT);
+		context[2] = new LineContext(5,Assets.WIDTH,Assets.HEIGHT);
+		context[3] = new TrailContext(Assets.WIDTH,Assets.HEIGHT,Assets.WIDTH/2,Assets.HEIGHT/2,100,90,270);
+	}
+
+	public static void adjustContextEnabled(int i, int value)
+	{
+		i = i -23;
+
+		if (SHIFT && !CTRL && value == 0)
+		{
+			context[i].addNext();
+		}
+		else if(CTRL && !SHIFT && value == 0)
+		{
+			context[i].removeLast();
+		}
+		else
+		{
+
+			if (value == 0)
+				cEnabled[i] = !cEnabled[i];
+		}
+	}
+
+	public static void adjustSpeed(int i)
+	{
+		//i+1 of 127 = x of 100
+		int z = 100 - (((i + 1) * 100)/127);
+		SPEED = z;
+		System.out.println("SPEED SET TO " + SPEED);
+	}
+	public static void popColor()
+	{
+		current = cStack.popColor();
+	}
+	public static void pushColor()
+	{
+		cStack.pushColor();
+		current = cStack.getTop();
+
+	}
+
 
 }

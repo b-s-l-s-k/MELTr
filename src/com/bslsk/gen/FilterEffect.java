@@ -8,10 +8,10 @@ import java.awt.image.Kernel;
 
 public class FilterEffect extends Effect {
 
-	public static final int TYPE_BLUR = 0, TYPE_SHARPEN = 1, TYPE_EDGE = 2, TYPE_BRIGHTEN = 3, TYPE_NEG = 4;
-	boolean active;
-	int type;
-	float strength;
+	public static final int TYPE_BLUR = 0, TYPE_SHARPEN = 1, TYPE_EDGE = 2, TYPE_GRAIN = 3;
+	public boolean active;
+	public int type;
+	public float strength;
 	int iv, counter;
 	public FilterEffect(int t, float str)
 	{
@@ -19,12 +19,17 @@ public class FilterEffect extends Effect {
 		strength = str;
 		iv = 3;//   1/3 speed to save on CPU usage
 		counter= 0;
+		active = false;
+	}
+	public void blend()
+	{
+
 	}
 	@Override
 	public void doEffect(Graphics2D g, BufferedImage i)
 	{
-		if(isEnabled() && counter == iv)
-		{
+		//if(active && counter == iv)
+		//{
 			float[] elements = new float[9];
 			if(type == TYPE_BLUR)
 			{
@@ -38,6 +43,11 @@ public class FilterEffect extends Effect {
 			{
 				elements = edge(elements);
 			}
+			else if(type == TYPE_GRAIN)
+			{
+				elements = grain(elements);
+			}
+			/*
 			else if(type == TYPE_BRIGHTEN)  
 			{
 				elements = brighten(elements);
@@ -46,11 +56,13 @@ public class FilterEffect extends Effect {
 			{
 				elements = negatives(elements);
 			}
+			*/
+
 			convolve(g,i, elements);
 			counter = 0;
-		}
-		else if(isEnabled() && counter < iv)
-			counter++;
+		//}
+		//else if(isEnabled() && counter < iv)
+			//counter++;
 			//System.out.println("TYPE " +type +" NOT ENABLED");
 	}
 	
@@ -102,7 +114,16 @@ public class FilterEffect extends Effect {
 	private float[] blur(float[] elements) 
 	{
 		for(int x = 0; x < elements.length; x++)
-			elements[x] = strength;
+			elements[x] = (((strength) * .15f) / 127.0f) + 0f;
+		return elements;
+	}
+	private float[] grain(float[] elements)
+	{
+		float mult = (((strength) * 5.0f) / 127.0f);
+		elements =
+				new float[] { 0.0f, -mult, 0.0f,
+							mult, 1.0f, -mult,
+							0.0f, mult, 0.0f};
 		return elements;
 	}
 	@Override

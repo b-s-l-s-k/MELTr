@@ -20,7 +20,7 @@ import com.bslsk.midi.MidiMapper;
 import com.bslsk.paint.PaintBrush;
 import com.bslsk.paint.Painter;
 import processing.core.PApplet;
-
+import com.bslsk.util.*;
 public class GFrame extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener, WindowListener
 {
 	public static final String VERSION_ID = "0";
@@ -83,7 +83,8 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (gd.isFullScreenSupported()) {
 			setUndecorated(true);
-			gd.setFullScreenWindow(this);
+			setSize(1080, 1080);
+			//gd.setFullScreenWindow(this);
 		} else {
 			System.err.println("Full screen not supported");
 			setSize(100, 100); // just something to show
@@ -229,14 +230,15 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	public void paint(Graphics g2)
 	{
 		Graphics2D g = (Graphics2D) g2;
-		if(buffer == null){return;}
+
+		if(buffer == null || Assets.painter == null){return;}
 		/*
 		for(Effect e : Assets.effects)
 			if(e.isEnabled())
 				e.doEffect(buffer, iB);
 		*/
 
-
+		//g.setComposite(new SubtractComposite());
 		buffer.setColor(Assets.current);
 		for (int x = 0; x < Assets.context.length;x++)
 			if(Assets.context[x] != null && Assets.cEnabled[x])
@@ -247,11 +249,12 @@ public class GFrame extends JFrame implements Runnable, KeyListener, MouseListen
 	
 		
 		
-		if(filter.isEnabled())
-			filter.doEffect(buffer, iB);
+		if(Assets.filter.active && Assets.filter.strength > 0)
+			Assets.filter.doEffect(buffer, iB);
 		//buffer.drawImage(Assets.loadedIMG[1], 0,0,100,100,null);
 		//g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f)); // oLD version
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Assets.DRAW_OPACITY));
+
 		g.drawImage(iB, 0, 0, this.getWidth(), this.getHeight(), null);
 
 	}

@@ -52,6 +52,8 @@ public class Assets
 	public static ColorStack cStack;
 
 	public static MidiMapper midiMap;
+	public static FilterEffect filter;
+
 	/**
 	 * Returns a default selection of PaintModes
 	 * @return PaintMode[] A generic collection of PaintModes
@@ -137,6 +139,7 @@ public class Assets
 		System.out.println(w + "     " + h +"     " + r );
 		cStack = new ColorStack();
 		midiMap = new MidiMapper("res/midi.txt");
+		filter = new FilterEffect(0,1.0f);
 
 	}
 

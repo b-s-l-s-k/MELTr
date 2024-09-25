@@ -20,7 +20,9 @@ public class ReflectMode extends PaintMode
 
 				BufferedImage n = g.iB.getSubimage(x, y,(g.width/4)-1, (g.height/4)-1);
 				Graphics2D nG = (Graphics2D)n.getGraphics();
-
+				double[] pr = new double[] {Assets.CONSTRAINTS[2].param , Assets.CONSTRAINTS[3].param };
+				pr[0] *= n.getWidth();
+				pr[1] *= n.getHeight();
 				nG.scale(Assets.CONSTRAINTS[1].param,Assets.CONSTRAINTS[1].param);
 				nG.translate(Assets.CONSTRAINTS[2].param, Assets.CONSTRAINTS[3].param);
 

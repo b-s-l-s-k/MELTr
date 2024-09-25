@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class MidiAction
 {
-    public static final int ANGLE = 0, SCALE = 1, TRANX = 2, TRANY = 3, CONTEXT = 4, SPEED = 5, OPACITY = 6;
+    public static final int ANGLE = 0, SCALE = 1, TRANX = 2, TRANY = 3, CONTEXT = 4, SPEED = 5, OPACITY = 6, FILTERTYPE = 7;
     //CONTEXT - STYPE
     public static final int C_MODIFY = 0, C_ENABLED = 1, C_COLOR = 2, C_STACK = 3;
     private int type,stype,dtype;
@@ -108,7 +108,40 @@ public class MidiAction
         else if(type == OPACITY)
         {
             Assets.DRAW_OPACITY = (value * 100.0f) / 12700.0f ;
-            System.out.println("OPACITY SET TO " + OPACITY);
+            System.out.println("OPACITY SET TO " + Assets.DRAW_OPACITY);
+        }
+        else if(type == FILTERTYPE)
+        {
+            if(stype == 0)
+            {
+                if (value != 0)
+                {
+                    Assets.filter.type = (((value) * 3) / 127);
+                    //Assets.filter.active = true;
+                    System.out.println("FILTER TYPE SET TO " + Assets.filter.type);
+                }
+                else
+                {
+
+                    //Assets.filter.active = false;
+                }
+            }
+            else if(stype == 1)
+            {
+                Assets.filter.strength = value;
+                System.out.println("FILTER TYPE SET TO " + Assets.filter.strength);
+            }
+            else if(stype == 2)
+            {
+                if(value == 0)
+                {
+                    Assets.filter.active = !Assets.filter.active;
+                    System.out.println("FILTER " + (Assets.filter.active ? "Active" : "Inactive"));
+                }
+
+            }
+
+
         }
     }
 }
